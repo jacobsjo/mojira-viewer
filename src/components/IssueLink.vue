@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue';
-import { useIssueInfillStore } from '../stores/IssueInfillStore';
+import { useIssueCache } from '../stores/IssueCache';
 import Flair from './Flair.vue';
 import { IssueFlair } from '../IssueFlair';
 import { computed } from 'vue';
 
-const issueInfillStore = useIssueInfillStore()
+const issueCache = useIssueCache()
 
 const props = defineProps({
     issueKey: String,
 })
 
 onBeforeMount(() => {
-    if (props.issueKey) issueInfillStore.registerInfillInterest(props.issueKey)
+    if (props.issueKey) issueCache.registerInterest(props.issueKey)
 })
 
-const issue = computed(() => issueInfillStore.infill.get(props.issueKey ?? ''))
+const issue = computed(() => issueCache.cache.get(props.issueKey ?? '')?.issue)
 
 </script>
 
@@ -35,4 +35,4 @@ const issue = computed(() => issueInfillStore.infill.get(props.issueKey ?? ''))
         text-decoration: underline;
     }
 
-</style>
+</style>../stores/IssueCache

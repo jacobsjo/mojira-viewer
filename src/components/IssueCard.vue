@@ -3,11 +3,11 @@ import { useRoute } from 'vue-router';
 import { IssueFlair } from '../IssueFlair';
 import Flair from './Flair.vue';
 import { onBeforeMount } from 'vue';
-import { useIssueInfillStore } from '../stores/IssueInfillStore';
 import { computed } from 'vue';
+import { useIssueCache } from '../stores/IssueCache';
 
 const route = useRoute()
-const issueInfillStore = useIssueInfillStore()
+const issueCache = useIssueCache()
 
 const props = defineProps({
     issue: Object,
@@ -15,15 +15,15 @@ const props = defineProps({
 
 onBeforeMount(() => {
     if (props.issue && props.issue.fields.customfield_10049 === undefined){
-        issueInfillStore.registerInfillInterest(props.issue.key)
+        issueCache.registerInterest(props.issue.key)
     }
 })
 
 const flair = computed(() => {
     if (props.issue?.fields.customfield_10049 !== undefined){
         return IssueFlair.getIssueFlair(props.issue?.fields) 
-    } else if (issueInfillStore.infill.has(props.issue?.key)) {
-        return IssueFlair.getIssueFlair(issueInfillStore.infill.get(props.issue?.key).fields) 
+    } else if (issueCache.cache.has(props.issue?.key)) {
+        return IssueFlair.getIssueFlair(issueCache.cache.get(props.issue?.key)?.issue.fields) 
     } else {
         return IssueFlair.IssueFlairs.Unknown
     }
@@ -67,4 +67,4 @@ const flair = computed(() => {
 .summary {
     font-size: 14px;
 }
-</style>
+</style>../stores/IssueCache

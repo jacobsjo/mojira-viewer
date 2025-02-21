@@ -11,16 +11,15 @@ import { useRoute } from 'vue-router'
 import { useSearchResultStore } from '../stores/SearchResultStore'
 import IssueCard from './IssueCard.vue'
 import { onUpdated } from 'vue'
-import { useIssueInfillStore } from '../stores/IssueInfillStore'
+import { useIssueCache } from '../stores/IssueCache'
 
 // TODO sanitise route.params.issue
 
 
 export const useIssueData = defineBasicLoader('getIssue', async (route) => {
-    const searchResultsStore = useSearchResultStore()
+    const issueCache = useIssueCache()
 
-    return searchResultsStore.searchResults.find(issue => issue.key === route.params.issue)
-        ?? await getIssue(route.params.issue as string)
+    return issueCache.getIssue(route.params.issue as string)
 })
 
 export const useComments = defineBasicLoader('getComments', async (route) => {
@@ -35,7 +34,7 @@ function mapVersionList(versions: any[]) {
 
 <script setup lang="ts">
 const route = useRoute()
-const issueInfillStore = useIssueInfillStore()
+const issueCache = useIssueCache()
 
 const {
     data: issue,
@@ -80,7 +79,7 @@ watch(
 )
 
 onUpdated(() => {
-    issueInfillStore.update()
+    issueCache.update()
 })
 
 </script>
@@ -188,4 +187,4 @@ h6 {
     padding: 0.25rem;
 }
 </style>
-../IssueFlair
+../IssueFlair../stores/IssueCache

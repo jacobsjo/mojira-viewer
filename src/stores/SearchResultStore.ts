@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { search as searchApi } from '../api'
+import { useIssueCache } from './IssueCache'
 
 export const useSearchResultStore = defineStore('searchResult', () => {
+    const issueCache = useIssueCache()
     const searchResults = ref<any[]>([])
     const total = ref(0)
 
@@ -14,12 +16,14 @@ export const useSearchResultStore = defineStore('searchResult', () => {
         jql = _jql
 
         const response = await searchApi(project, jql)
+        issueCache.storeIssues(response.issues)
         searchResults.value = response.issues
         total.value = response.total
     }
 
     async function searchMore(){
         const response = await searchApi(project, jql, searchResults.value.length)
+        issueCache.storeIssues(response.issues)
         searchResults.value = searchResults.value.concat(response.issues)
         total.value = response.total
     }

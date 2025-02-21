@@ -44,7 +44,7 @@ export async function getIssues(ids: string[]): Promise<any> {
             "advanced": true,
             "project": 'MC',
             "startAt": 0,
-            "maxResults": 1,
+            "maxResults": 50,
             "search": `votes<0 OR key in (${ids})`
         })
     })
