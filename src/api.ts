@@ -1,14 +1,20 @@
 
-export async function search(project: string, jql: string, startAt: number = 0): Promise<any> {
+export async function search(jql: string, startAt: number = 0): Promise<any> {
+    var requestJql = 'votes < 0 OR '
+    if (jql === '' || jql.startsWith("ORDER BY")){
+        requestJql += 'votes >= 0 '
+    }
+    requestJql += jql
+
     const response = await fetch('https://bugs.mojang.com/api/jql-search-post', {
         method: "POST",
         headers: new Headers([["Content-Type", "application/json"]]),
         body: JSON.stringify({
             "advanced": true,
-            "project": project,
+            "project": 'MC',
             "startAt": startAt,
             "maxResults": 20,
-            "search": jql === '' || jql.startsWith("ORDER BY") ? `votes>=0 ${jql}` : jql
+            "search": requestJql
         })
     })
     return await response.json()

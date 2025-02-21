@@ -11,8 +11,8 @@ export const useIssueCache = defineStore('issueCache', () => {
     const cache = reactive(new Map<string, CacheEntry>())
     var cacheRequests: Set<string> = new Set<string>()
 
-    function registerInterest(key: string, force: boolean = false){
-        if ((!cache.has(key) || force) && !cacheRequests.has(key))
+    function registerInterest(key: string, maxAge: number = Number.POSITIVE_INFINITY){
+        if ((!cache.has(key) || Date.now()-cache.get(key)!.timestamp > maxAge) && !cacheRequests.has(key))
             cacheRequests.add(key)
     }
 
@@ -23,8 +23,8 @@ export const useIssueCache = defineStore('issueCache', () => {
         }
     }
 
-    async function getIssue(key: string, force: boolean = false){
-        registerInterest(key, force)
+    async function getIssue(key: string, maxAge: number = 1000*60*5 /* 5 Minutes */){
+        registerInterest(key, maxAge)
         await update()
         return cache.get(key)?.issue
     }

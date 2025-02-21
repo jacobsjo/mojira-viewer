@@ -24,11 +24,11 @@
         height: 100%;
         box-sizing: border-box;
         overflow-y: scroll;
+        overflow-x: hidden;
         display: flex;
         flex-direction: column;
         text-align: left;
     }
-
 
     .more {
         min-height: 3.5rem;

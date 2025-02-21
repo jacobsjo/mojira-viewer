@@ -5,22 +5,16 @@
 
     const searchResultsStore = useSearchResultStore()
 
-    const project = ref('MC');
     const jql = ref('');
 
     async function search(){
-        searchResultsStore.search(project.value, jql.value)
+        searchResultsStore.search(jql.value)
     }
 
 </script>
 
 <template>
     <div id="searchBar">
-        <label>Project: </label>     
-        <select v-model="project">
-            <option>MC</option>
-            <option>MCPE</option>
-        </select>
         <label>JQL: </label>     
         <input id="jql" v-model="jql"/>
         <div class="button" tabindex="0" @click="search" @keypress:enter="search">Search</div>

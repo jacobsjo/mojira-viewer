@@ -8,21 +8,19 @@ export const useSearchResultStore = defineStore('searchResult', () => {
     const searchResults = ref<any[]>([])
     const total = ref(0)
 
-    var project: string = ''
     var jql: string = ''
 
-    async function search(_project: string, _jql: string){
-        project = _project
+    async function search(_jql: string){
         jql = _jql
 
-        const response = await searchApi(project, jql)
+        const response = await searchApi(jql)
         issueCache.storeIssues(response.issues)
         searchResults.value = response.issues
         total.value = response.total
     }
 
     async function searchMore(){
-        const response = await searchApi(project, jql, searchResults.value.length)
+        const response = await searchApi(jql, searchResults.value.length)
         issueCache.storeIssues(response.issues)
         searchResults.value = searchResults.value.concat(response.issues)
         total.value = response.total
