@@ -8,13 +8,16 @@
     "preview": "vite preview --host"
   },
   "dependencies": {
+    "@intlify/unplugin-vue-i18n": "^6.0.3",
     "pinia": "^3.0.1",
     "unplugin-vue-router": "^0.11.2",
     "vue": "^3.5.13",
+    "vue-i18n": "^11.1.1",
     "vue-router": "^4.5.0",
     "vue-select": "^4.0.0-beta.6"
   },
   "devDependencies": {
+    "@types/node": "^22.13.5",
     "@types/vue-select": "^3.16.8",
     "@vitejs/plugin-vue": "^5.2.1",
     "typescript": "^5.7.3",

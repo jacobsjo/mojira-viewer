@@ -1,0 +1,20 @@
+{
+    "search.text.placeholder": "Search...",
+
+    "field.project.label": "Project",
+    "field.status.label": "Status",
+    "field.resolution.label": "Resolution",
+    "field.Confirmation Status.label": "Confirmation Status",
+    "field.Mojang Priority.label": "Mojang Priority",
+    "field.category.label": "Category",
+    "field.label.label": "Label",
+    "field.Area.label": "Area",
+    "field.reporter.label": "Reporter",
+    "field.affectedVersion.label": "Affects Version",
+    "field.fixVersion.label": "Fix Version",
+    "field.created.label": "Created at",
+    "field.updated.label": "Updated at",
+    "field.resolved.label": "Resolved at",
+    "field.votes.label": "Votes",
+    "field.watchers.label": "Watchers"
+}

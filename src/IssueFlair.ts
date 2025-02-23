@@ -17,7 +17,7 @@ export class IssueFlair {
         Fixed: new IssueFlair('fixed', 'Fixed'),
         Duplicate: new IssueFlair('invalid', 'Duplicate'),
         Invalid: new IssueFlair('invalid', 'Invalid'),
-        WorkingAsIntended: new IssueFlair('invalid', 'Working As Intended'),
+        WorksAsIntended: new IssueFlair('invalid', 'Work As Intended'),
         WontFix: new IssueFlair('invalid', 'Won\'t Fix'),
         AwaitingResponse: new IssueFlair('invalid', 'Awaiting Response'),
         Incomplete: new IssueFlair('invalid', 'Incomplete'),
@@ -54,7 +54,7 @@ export class IssueFlair {
                 case "Won't Fix":
                     return IssueFlair.IssueFlairs.WontFix
                 case "Works As Intended":
-                    return IssueFlair.IssueFlairs.WorkingAsIntended
+                    return IssueFlair.IssueFlairs.WorksAsIntended
                 case "Duplicate":
                     return IssueFlair.IssueFlairs.Duplicate
                 case "Invalid":

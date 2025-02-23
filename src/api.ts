@@ -1,5 +1,6 @@
 
 export async function search(jql: string, startAt: number = 0): Promise<any> {
+    jql = jql.trim()
     var requestJql = 'votes < 0 OR '
     if (jql === '' || jql.startsWith("ORDER BY")){
         requestJql += 'votes >= 0 '

@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineBasicLoader } from 'unplugin-vue-router/data-loaders/basic'
-import { getIssue, getComments, getJsdRequest } from '../api'
+import { getComments } from '../api'
 import { IssueFlair } from '../IssueFlair'
 import Flair from './Flair.vue'
 import DetailEntry from './DetailEntry.vue'
@@ -8,7 +8,6 @@ import { computed } from 'vue'
 import AdfDoc from './adf/AdfDoc.vue'
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { useSearchResultStore } from '../stores/SearchResultStore'
 import IssueCard from './IssueCard.vue'
 import { onUpdated } from 'vue'
 import { useIssueCache } from '../stores/IssueCache'
@@ -60,10 +59,15 @@ const issueLinks = computed(() => {
                 linkTypes.set(link.type.id, { type: link.type, inward: [], outward: [] })
             }
 
+            const type = linkTypes.get(link.type.id)!
             if (link.inwardIssue !== undefined) {
-                linkTypes.get(link.type.id)?.inward.push(link.inwardIssue)
+                type.inward.push(link.inwardIssue)
             } else if (link.outwardIssue !== undefined) {
-                linkTypes.get(link.type.id)?.outward.push(link.outwardIssue)
+                if (type.type.inward === type.type.outward){ // symetric links
+                    type.inward.push(link.outwardIssue)
+                } else {
+                    type.outward.push(link.outwardIssue)
+                }
             }
         }
     }
@@ -109,6 +113,7 @@ onUpdated(() => {
             <DetailEntry title="Area" :value="issue.fields.customfield_10051?.value" />
             <DetailEntry title="Created" :value="new Date(issue.fields.created).toLocaleString()" />
             <DetailEntry title="Updated" :value="new Date(issue.fields.updated).toLocaleString()" />
+            <DetailEntry title="Resolved" :value="issue.fields.resolutiondate ? new Date(issue.fields.resolutiondate).toLocaleString() : ''" />
             <DetailEntry title="Votes" :value="issue.fields.votes.votes.toString()" />
             <DetailEntry title="Watchers" :value="issue.fields.watches.watchCount.toString()" />
             <DetailEntry title="ADO" :value="issue.fields.customfield_10050" />

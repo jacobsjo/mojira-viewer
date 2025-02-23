@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import SearchBar from "./components/SearchBar.vue"
+  import SearchBar from "./components/search/SearchBar.vue"
   import SearchResults from "./components/SearchResults.vue"
 </script>
 
@@ -21,6 +21,9 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  --vs-font-size: 10pt;
+  --vs-line-height: 12pt;
 }
 
 #main {
@@ -59,6 +62,19 @@ html,body{
 
 .card.open:hover {
   background-color: rgb(156, 176, 185);;
+}
+
+.v-select .vs__selected-options {
+    flex-wrap: nowrap;
+    overflow-x: hidden;
+}
+
+.v-select .vs__selected {
+    white-space: nowrap;
+}
+
+.v-select .vs__search {
+    min-width: 2rem;
 }
 
 
