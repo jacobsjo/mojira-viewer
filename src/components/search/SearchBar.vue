@@ -5,10 +5,15 @@ import BasicSearch from './BasicSearch.vue';
 import { BasicSearchData, BasicSearchDataField } from '../../BasicSearchData';
 import { watch } from 'vue';
 import { reactive } from 'vue';
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import router from '../../router';
+    const defaultJql = 'resolution = Unresolved AND "created" IS NOT EMPTY ORDER BY "created" DESC'
+    const route = useRoute()
 
     const searchResultsStore = useSearchResultStore()
 
-    const jql = ref('');
+    const jql = ref(defaultJql);
     const basicSearchData = reactive<BasicSearchData>({
         project: new BasicSearchDataField.Select('project', []),
         text: new BasicSearchDataField.Fuzzy('text', ''),
@@ -23,6 +28,9 @@ import { reactive } from 'vue';
 
     async function search(){
         searchResultsStore.search(jql.value)
+        router.push({query: {
+            jql: jql.value === defaultJql ? undefined : jql.value
+        }})
     }
 
     const useJql = ref(false)
@@ -33,19 +41,41 @@ import { reactive } from 'vue';
             return
         }
 
+        if (updateBasicSearch()){
+            useJql.value = false
+        }
+    }
+
+    function updateBasicSearch(){
         const newData = BasicSearchData.tryParseJql(jql.value)
-        console.log(newData)
         if (newData !== undefined){
             basicSearchData.project = newData.project
             basicSearchData.text = newData.text
             basicSearchData.search = newData.search
             basicSearchData.sort = newData.sort
             basicSearchData.sortAsc = newData.sortAsc
-            useJql.value = false
+            return true
         } else {
-            console.warn('couldnt parse jql')
+            return false
         }
     }
+
+    watch(() => route.query.jql, (queryJql) => {
+        if (queryJql !== undefined && queryJql !== jql.value){
+            console.log("query update")
+            jql.value = queryJql as string
+            useJql.value = !updateBasicSearch()
+            search()
+        }
+    })
+
+    onMounted(async() => {
+        await router.isReady()
+        if (route.query.jql === undefined){
+            useJql.value = !updateBasicSearch()
+            search()
+        }
+    })
 
 </script>
 

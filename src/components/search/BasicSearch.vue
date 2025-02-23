@@ -9,7 +9,6 @@ import { FieldMetadata } from '../../FieldMetadata';
 import { ref } from 'vue';
 import Arrow from '../icons/Arrow.vue';
 
-
 const data = defineModel<BasicSearchData>({
     required: true
 })
@@ -24,7 +23,6 @@ function addMore(field: { type: string, field: string }) {
         data.value?.search.push(new BasicSearchDataField.Comparison(field.field, "=", ""))
     }
 }
-
 </script>
 
 <template>

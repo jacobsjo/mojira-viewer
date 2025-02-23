@@ -6,7 +6,7 @@ export namespace FieldMetadata {
         "Confirmation Status",
         "Mojang Priority",
         "category",
-        "label",
+        "labels",
         "Area",
         "reporter",
         "affectedVersion",
@@ -80,7 +80,7 @@ export namespace FieldMetadata {
             options: [],
             any: true
         },
-        label: {
+        labels: {
             options: [],
             any: true
         },

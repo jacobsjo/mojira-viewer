@@ -6,7 +6,7 @@
         url: String,
     })
 
-    const key = computed(() => props.url?.match(/https:\/\/mojira.atlassian.net\/browse\/([^#]*)/)?.[1])
+    const key = computed(() => props.url?.match(/https:\/\/(?:mojira.atlassian.net|report.bugs.mojang.com)\/browse\/([^#]*)/)?.[1])
 </script>
 
 <template>

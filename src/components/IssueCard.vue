@@ -5,6 +5,7 @@ import Flair from './Flair.vue';
 import { onBeforeMount } from 'vue';
 import { computed } from 'vue';
 import { useIssueCache } from '../stores/IssueCache';
+import InternalLink from './InternalLink.vue';
 
 const route = useRoute()
 const issueCache = useIssueCache()
@@ -32,13 +33,13 @@ const flair = computed(() => {
 </script>
 
 <template>
-    <RouterLink :to="`/browse/${props.issue?.key}`" class="card result"
+    <InternalLink :to="`/browse/${props.issue?.key}`" class="card result"
         :class="{ open: route.params.issue === props.issue?.key }">
         <div class="title"><span class="id">{{ props.issue?.key }}</span>
             <Flair :flair="flair" />
         </div>
         <div class="summary">{{ props.issue?.fields?.summary }}</div>
-    </RouterLink>
+    </InternalLink>
 </template>
 
 <style scoped>

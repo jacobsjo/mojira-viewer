@@ -23,7 +23,7 @@ export const useIssueCache = defineStore('issueCache', () => {
         }
     }
 
-    async function getIssue(key: string, maxAge: number = 1000*60*5 /* 5 Minutes */){
+    async function getIssue(key: string, maxAge: number = 1000*60*15 /* 15 Minutes */){
         registerInterest(key, maxAge)
         await update()
         return cache.get(key)?.issue

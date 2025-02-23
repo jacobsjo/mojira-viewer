@@ -18,7 +18,7 @@ export namespace BasicSearchData {
         if (data.sort !== null) {
             if (jql !== "")
                 jql += " AND "
-            jql += `"${data.sort}" IS NOT EMPTY ORDER BY "${data.sort}" ${data.sortAsc ? "ASC" : "DESC"}`
+            jql += `${encodeString(data.sort)} IS NOT EMPTY ORDER BY ${encodeString(data.sort)} ${data.sortAsc ? "ASC" : "DESC"}`
         }
         return jql
     }
@@ -37,10 +37,10 @@ export namespace BasicSearchData {
 
         // try parse sort option
         const lastPart = jqlParts[jqlParts.length - 1].trim()
-        const matchSearch = lastPart.match(/^["']([^'"]*)['"] [iI][sS] [nN][oO][tT] [eE][mM][pP][tT][yY] [oO][rR][dD][eE][rR] [bB][yY] ["']([^'"]*)['"]( [aA][sS][cC]| [dD][eE][sS][cC])?$/)
+        const matchSearch = lastPart.match(/^(.+) [iI][sS] [nN][oO][tT] [eE][mM][pP][tT][yY] [oO][rR][dD][eE][rR] [bB][yY] (.+?)( [aA][sS][cC]| [dD][eE][sS][cC])?$/)
         if (matchSearch && matchSearch[1] === matchSearch[2]) {
-            newData.sort = matchSearch[1]
-            newData.sortAsc = matchSearch[2] !== " DESC"
+            newData.sort = parseString(matchSearch[1])
+            newData.sortAsc = matchSearch[3].toUpperCase() !== " DESC"
             jqlParts.pop()
         }
 
@@ -103,20 +103,20 @@ export namespace BasicSearchDataField {
             if (this.selected.length === 0){
                 return null
             } else if (this.selected.length === 1){
-                return `"${this.field}" = ${encodeString(this.selected[0])}`
+                return `${encodeString(this.field)} = ${encodeString(this.selected[0])}`
             } else {
-                return `"${this.field}" IN (${this.selected.map(encodeString).join(', ')})`
+                return `${encodeString(this.field)} IN (${this.selected.map(encodeString).join(', ')})`
             }
         }
 
         public static tryParseJqlPart(jql: string){
-            const matchSingle = jql.match(/^["']([^'"]*)['"] = (.*)$/)
-            if (matchSingle && Object.keys(FieldMetadata.Select).includes(matchSingle[1])) {
-                return new Select(matchSingle[1], [parseString(matchSingle[2])])
+            const matchSingle = jql.match(/^([^<=>]*)=(.*)$/)
+            if (matchSingle && Object.keys(FieldMetadata.Select).includes(parseString(matchSingle[1]))) {
+                return new Select(parseString(matchSingle[1]), [parseString(matchSingle[2])])
             }
-            const matchMulti = jql.match(/^["']([^'"]*)['"] [iI][nN] \(([^\)]*)\)$/)
-            if (matchMulti && Object.keys(FieldMetadata.Select).includes(matchMulti[1])) {
-                return new Select(matchMulti[1], matchMulti[2].split(',').map(parseString))
+            const matchMulti = jql.match(/^(.*) [iI][nN] \(([^\)]*)\)$/)
+            if (matchMulti && Object.keys(FieldMetadata.Select).includes(parseString(matchMulti[1]))) {
+                return new Select(parseString(matchMulti[1]), matchMulti[2].split(',').map(parseString))
             }
             return undefined
         }        
@@ -140,9 +140,9 @@ export namespace BasicSearchDataField {
         }
 
         public static tryParseJqlPart(jql: string){
-            const match = jql.match(/^["']([^'"]*)['"] (<=|<|=|>|>=) (.*)$/)
-            if (match && Object.keys(FieldMetadata.Compare).includes(match[1])) {
-                return new Comparison(match[1], match[2], parseString(match[3]))
+            const match = jql.match(/^([^<=>]*)(<=|<|=|>|>=)(.*)$/)
+            if (match && Object.keys(FieldMetadata.Compare).includes(parseString(match[1]))) {
+                return new Comparison(parseString(match[1]), match[2], parseString(match[3]))
             }
             return undefined
         }        
