@@ -1,18 +1,23 @@
 <script setup lang="ts">
 import SearchBar from "./components/search/SearchBar.vue"
 import SearchResults from "./components/SearchResults.vue"
+import { useSettingsStore } from "./stores/SettingsStore";
+
+const settingsStore = useSettingsStore()
 </script>
 
 <template>
-  <SearchBar />
-  <div id="main">
-    <SearchResults />
-    <router-view class="view" />
+  <div class="app" :class="{ dark: settingsStore.darkMode }">
+    <SearchBar />
+    <div id="main">
+      <SearchResults />
+      <router-view class="view" />
+    </div>
   </div>
 </template>
 
 <style>
-:root {
+.app {
   --searchbar-bg-color: rgb(255, 242, 230);
   --main-border-color: rgb(153, 153, 153);
   --results-bg-color: rgb(224, 232, 233);
@@ -38,35 +43,32 @@ import SearchResults from "./components/SearchResults.vue"
   color: var(--text-color);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --searchbar-bg-color: rgb(19, 19, 19);
-    --main-border-color: rgb(86, 104, 163);
-    --results-bg-color: rgb(39, 39, 39);
-    --main-bg-color: rgb(34, 34, 34);
-    --input-bg-color: black;
-    --input-text-color: white;
-    --accent-color: rgb(78, 99, 131);
-    --link-color: rgb(178, 219, 255);
-    --card-hover-color: rgb(70, 70, 70);
-    --card-active-color: rgb(72, 82, 87);
-    --card-active-hover-color: rgb(100, 115, 122);
-    --key-color: rgb(174, 174, 255);
-    --accent2-color: rgb(255, 213, 174);
-    --scrollbar-bg-color: black;
-    --scrollbar-thumb-color: rgb(83, 83, 83);
-    --code-bg-color: #363636;
-    --code-border-color: rgb(122, 122, 122);
-    --text-color: rgb(230, 230, 230);
+.app.dark {
+  --searchbar-bg-color: rgb(19, 19, 19);
+  --main-border-color: rgb(86, 104, 163);
+  --results-bg-color: rgb(39, 39, 39);
+  --main-bg-color: rgb(34, 34, 34);
+  --input-bg-color: black;
+  --input-text-color: white;
+  --accent-color: rgb(78, 99, 131);
+  --link-color: rgb(178, 219, 255);
+  --card-hover-color: rgb(70, 70, 70);
+  --card-active-color: rgb(72, 82, 87);
+  --card-active-hover-color: rgb(100, 115, 122);
+  --key-color: rgb(174, 174, 255);
+  --accent2-color: rgb(255, 213, 174);
+  --scrollbar-bg-color: black;
+  --scrollbar-thumb-color: rgb(83, 83, 83);
+  --code-bg-color: #363636;
+  --code-border-color: rgb(122, 122, 122);
+  --text-color: rgb(230, 230, 230);
 
-    --vs-colors--lightest: white !important;
-    --vs-border-color: var(--accent-color) !important;
-    --vs-controls-color: var(--accent-color) !important;
-    --vs-selected-color: rgb(199, 199, 199) !important;
-    --vs-selected-bg: black !important;
-    --vs-dropdown-bg: black !important;
-  }
-
+  --vs-colors--lightest: white !important;
+  --vs-border-color: var(--accent-color) !important;
+  --vs-controls-color: var(--accent-color) !important;
+  --vs-selected-color: rgb(199, 199, 199) !important;
+  --vs-selected-bg: black !important;
+  --vs-dropdown-bg: black !important;
 }
 
 #app {
@@ -74,13 +76,17 @@ import SearchResults from "./components/SearchResults.vue"
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  display: flex;
-  flex-direction: column;
   height: 100%;
 
   --vs-font-size: 10pt;
   --vs-line-height: 12pt;
+}
 
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 #main {
@@ -171,7 +177,6 @@ body {
 }
 
 ::-webkit-scrollbar-corner {
-    background: #000;
+  background: #000;
 }
-
 </style>

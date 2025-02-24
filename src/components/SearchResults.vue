@@ -2,6 +2,7 @@
     
     import IssueCard from './IssueCard.vue'
     import { useSearchResultStore } from '../stores/SearchResultStore'
+import Spinner from './Spinner.vue';
 
     const searchResultsStore = useSearchResultStore()
 
@@ -13,7 +14,10 @@
 <template>
     <div id="results">
         <IssueCard v-for="issue of searchResultsStore.searchResults" :issue="issue" />
-        <div class="card more" v-if="!searchResultsStore.hasAll" @click="loadMore" @keypress:enter="loadMore" tabindex="0">Load more</div>
+        <Spinner v-if="searchResultsStore.isLoading" />
+        <div class="card more" v-if="!searchResultsStore.hasAll" @click="loadMore" @keypress:enter="loadMore" tabindex="0">
+            Load more
+        </div>
     </div>
 </template>
 
@@ -29,6 +33,11 @@
         flex-direction: column;
         text-align: left;
         background-color: var(--results-bg-color);
+    }
+
+    .spinner {
+        font-size: 18px;
+        margin-top: 1rem;
     }
 
     .more {

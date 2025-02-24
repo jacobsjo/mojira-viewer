@@ -11,6 +11,7 @@ import { useRoute } from 'vue-router'
 import IssueCard from './IssueCard.vue'
 import { onUpdated } from 'vue'
 import { useIssueCache } from '../stores/IssueCache'
+import Spinner from './Spinner.vue'
 
 // TODO sanitise route.params.issue
 
@@ -96,7 +97,7 @@ onUpdated(() => {
 <template>
     <div id="container">
         <div v-if="isLoadingIssue" id="loading">
-            Loading
+            <Spinner />
         </div>
         <div v-else-if="errorIssue" id="error">
             Issue not found
@@ -147,7 +148,7 @@ onUpdated(() => {
 
             <h2>Comments:</h2>
             <div class="comments">
-                <div v-if="isLoadingComments">Loading</div>
+                <div v-if="isLoadingComments"><Spinner /></div>
                 <div v-else-if="comments.length === 0">No comments</div>
                 <div class="comment" v-else v-for="comment of comments">
                     <div class="header"><img class="avatar" :src="comment.author.avatarUrls['16x16']" alt="[user]"/>
@@ -165,6 +166,11 @@ onUpdated(() => {
 #container {
     max-height: 100%;
     overflow-y: scroll;
+}
+
+#loading {
+    padding: 20rem;
+    font-size: 50pt;
 }
 
 #issue {

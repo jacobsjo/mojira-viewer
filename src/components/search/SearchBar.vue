@@ -1,6 +1,7 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
-    import { useSearchResultStore } from '../../stores/SearchResultStore'
+import { ref } from 'vue';
+import { useSearchResultStore } from '../../stores/SearchResultStore'
+import { useSettingsStore } from '../../stores/SettingsStore'
 import BasicSearch from './BasicSearch.vue';
 import { BasicSearchData, BasicSearchDataField } from '../../BasicSearchData';
 import { watch } from 'vue';
@@ -8,155 +9,170 @@ import { reactive } from 'vue';
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import router from '../../router';
-    const defaultJql = 'resolution = Unresolved AND "created" IS NOT EMPTY ORDER BY "created" DESC'
-    const route = useRoute()
+const defaultJql = 'resolution = Unresolved AND "created" IS NOT EMPTY ORDER BY "created" DESC'
+const route = useRoute()
 
-    const searchResultsStore = useSearchResultStore()
+const searchResultsStore = useSearchResultStore()
+const settingsStore = useSettingsStore()
 
-    const jql = ref(defaultJql);
-    const basicSearchData = reactive<BasicSearchData>({
-        project: new BasicSearchDataField.Select('project', []),
-        text: new BasicSearchDataField.Fuzzy('text', ''),
-        search: [],
-        sort: null,
-        sortAsc: true
-    })
+const jql = ref(defaultJql);
+const basicSearchData = reactive<BasicSearchData>({
+    project: new BasicSearchDataField.Select('project', []),
+    text: new BasicSearchDataField.Fuzzy('text', ''),
+    search: [],
+    sort: null,
+    sortAsc: true
+})
 
-    watch(basicSearchData, () => {
-        jql.value = BasicSearchData.toJql(basicSearchData)
-    })
+watch(basicSearchData, () => {
+    jql.value = BasicSearchData.toJql(basicSearchData)
+})
 
-    async function search(){
-        searchResultsStore.search(jql.value)
-        router.push({query: {
+async function search() {
+    searchResultsStore.search(jql.value)
+    router.push({
+        query: {
             jql: jql.value === defaultJql ? undefined : jql.value
-        }})
-    }
-
-    const useJql = ref(false)
-
-    function switchMode(){
-        if (useJql.value === false){
-            useJql.value = true
-            return
-        }
-
-        if (updateBasicSearch()){
-            useJql.value = false
-        }
-    }
-
-    function updateBasicSearch(){
-        const newData = BasicSearchData.tryParseJql(jql.value)
-        if (newData !== undefined){
-            basicSearchData.project = newData.project
-            basicSearchData.text = newData.text
-            basicSearchData.search = newData.search
-            basicSearchData.sort = newData.sort
-            basicSearchData.sortAsc = newData.sortAsc
-            return true
-        } else {
-            return false
-        }
-    }
-
-    watch(() => route.query.jql, (queryJql) => {
-        if (queryJql !== undefined && queryJql !== jql.value){
-            console.log("query update")
-            jql.value = queryJql as string
-            useJql.value = !updateBasicSearch()
-            search()
         }
     })
+}
 
-    onMounted(async() => {
-        await router.isReady()
-        if (route.query.jql === undefined){
-            useJql.value = !updateBasicSearch()
-            search()
-        }
-    })
+const useJql = ref(false)
+
+function switchMode() {
+    if (useJql.value === false) {
+        useJql.value = true
+        return
+    }
+
+    if (updateBasicSearch()) {
+        useJql.value = false
+    }
+}
+
+function updateBasicSearch() {
+    const newData = BasicSearchData.tryParseJql(jql.value)
+    if (newData !== undefined) {
+        basicSearchData.project = newData.project
+        basicSearchData.text = newData.text
+        basicSearchData.search = newData.search
+        basicSearchData.sort = newData.sort
+        basicSearchData.sortAsc = newData.sortAsc
+        return true
+    } else {
+        return false
+    }
+}
+
+watch(() => route.query.jql, (queryJql) => {
+    if (queryJql !== undefined && queryJql !== jql.value) {
+        console.log("query update")
+        jql.value = queryJql as string
+        useJql.value = !updateBasicSearch()
+        search()
+    }
+})
+
+onMounted(async () => {
+    await router.isReady()
+    if (route.query.jql === undefined) {
+        useJql.value = !updateBasicSearch()
+        search()
+    }
+})
 
 </script>
 
 <template>
     <div id="searchBar">
-        <div class="jqlSearch" v-if="useJql" >
-            <label>JQL: </label>     
-            <input id="jql" v-model="jql"/>
+        <div class="jqlSearch" v-if="useJql">
+            <label>JQL: </label>
+            <input id="jql" v-model="jql" />
         </div>
         <BasicSearch v-else v-model="basicSearchData" />
-        <div class="button search" tabindex="0" @click="search" @keypress:enter="search">Search</div>
-        <div class="button mode-switcher" tabindex="0" @click="switchMode" @keypress:enter="switchMode">{{useJql ? 'Basic' : 'JQL'}}</div>
+        <button class="search" tabindex="0" @click="search">Search</button>
+        <button class="jql-switcher" tabindex="0" @click="switchMode">{{ useJql ? 'Basic' : 'JQL' }}</button>
+        <button class="darkmode-switcher" tabindex="0" @click="settingsStore.darkMode = !settingsStore.darkMode"><font-awesome-icon :icon="['fas', settingsStore.darkMode ? 'sun' : 'moon']" /></button>
     </div>
 </template>
 
 <style scoped>
-    #searchBar {
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid var(--main-border-color);
-        padding: 0.5rem;
-        gap: 0.7rem;
-        background-color: var(--searchbar-bg-color);
-    }
+#searchBar {
+    display: flex;
+    align-items: start;
+    border-bottom: 1px solid var(--main-border-color);
+    padding: 0.5rem;
+    gap: 0.7rem;
+    background-color: var(--searchbar-bg-color);
+}
 
-    label {
-        margin-right: 0.5rem;
-    }
+label {
+    margin-right: 0.5rem;
+}
 
-    select {
-        width: 5rem;
-        background-color: white;
-        margin-right: 1rem;
-    }
+select {
+    width: 5rem;
+    background-color: white;
+    margin-right: 1rem;
+}
 
-    .jqlSearch {
-        flex-grow: 1;
-        align-items: center;
-        display: flex;
-    }
+.jqlSearch {
+    flex-grow: 1;
+    align-items: center;
+    display: flex;
+}
 
-    #jql {
-        flex-grow: 1;
-        height: 1.44rem;
-    }
+#jql {
+    flex-grow: 1;
+    height: 1.44rem;
+}
 
-    .button {
-        height: 1.6rem;
-        padding: auto;
-        text-align: center;
-        line-height: 1.7rem;
-        box-sizing: border-box;
-        cursor: pointer;
-        user-select: none;
-    }
+button {
+    height: 1.6rem;
+    padding: auto;
+    text-align: center;
+    line-height: 1.7rem;
+    box-sizing: border-box;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    font-size: unset;
+}
 
-    .button.search {
-        background-color: rgb(26, 34, 104);
-        width: 6rem;
-        color: white;
-        height: 1.7rem;
-        border-radius: 0.3rem;
-        font-weight: bolder;
-        border: 1px solid rgb(212, 212, 212);
-    }
+button.search {
+    background-color: rgb(26, 34, 104);
+    width: 5rem;
+    min-width: 5rem;
+    color: white;
+    height: 1.7rem;
+    border-radius: 0.3rem;
+    font-weight: bolder;
+    border: 1px solid rgb(212, 212, 212);
+}
 
-    .button.search:hover {
-        background-color: rgb(48, 58, 145);
-    }
+button.search:hover {
+    background-color: rgb(48, 58, 145);
+}
 
-    .button.search:active {
-        background-color: rgb(97, 106, 184);
-    }
-
-
-    .button.mode-switcher {
-        color: var(--link-color);
-        width: 3rem;
-        text-decoration: underline;
-    }
+button.search:active {
+    background-color: rgb(97, 106, 184);
+}
 
 
+button.jql-switcher {
+    color: var(--link-color);
+    width: 3rem;
+    min-width: 3rem;
+    text-decoration: underline;
+}
+
+button.darkmode-switcher {
+    color: var(--text-color);
+    width: 1.5rem;
+    min-width: 1.5rem;
+    text-decoration: underline;
+}
 
 </style>

@@ -69,52 +69,51 @@ const props = defineProps({
     color: rgb(43, 43, 43)
 }
 
-@media (prefers-color-scheme: dark) {
-    .new {
-        border: 1px solid rgb(187, 187, 187);
-        color: rgb(187, 187, 187);
-    }
 
-    .confirmed {
-        background-color: rgb(135, 135, 211);
-        color: black;
-    }
+.dark .new {
+    border: 1px solid rgb(187, 187, 187);
+    color: rgb(187, 187, 187);
+}
 
-    .mojang-confirmed.low {
-        background-color: rgb(89, 189, 89);
-        color: black;
-    }
+.dark .confirmed {
+    background-color: rgb(135, 135, 211);
+    color: black;
+}
 
-    .mojang-confirmed.normal {
-        background-color: rgb(228, 228, 93);
-        color: black;
-    }
+.dark .mojang-confirmed.low {
+    background-color: rgb(89, 189, 89);
+    color: black;
+}
 
-    .mojang-confirmed.important {
-        background-color: rgb(226, 159, 36);
-        color: black;
-    }
+.dark .mojang-confirmed.normal {
+    background-color: rgb(228, 228, 93);
+    color: black;
+}
 
-    .mojang-confirmed.veryImportant {
-        background-color: rgb(214, 46, 46);
-        color: black;
-    }
+.dark .mojang-confirmed.important {
+    background-color: rgb(226, 159, 36);
+    color: black;
+}
 
-    .in-progress {
-        background-color: rgb(186, 84, 218);
-        color: black;
-    }
+.dark .mojang-confirmed.veryImportant {
+    background-color: rgb(214, 46, 46);
+    color: black;
+}
 
-    .fixed {
-        border: 1px solid rgb(126, 196, 126);;
-        background-color: rgb(15, 61, 11);
-        color: rgb(126, 196, 126);
-    }
+.dark .in-progress {
+    background-color: rgb(186, 84, 218);
+    color: black;
+}
 
-    .invalid {
-        border: 1px solid rgb(68, 68, 68);
-        background-color: rgb(65, 65, 65);
-        color: rgb(211, 211, 211)
-    }
+.dark .fixed {
+    border: 1px solid rgb(126, 196, 126);;
+    background-color: rgb(15, 61, 11);
+    color: rgb(126, 196, 126);
+}
+
+.dark .invalid {
+    border: 1px solid rgb(68, 68, 68);
+    background-color: rgb(65, 65, 65);
+    color: rgb(211, 211, 211)
 }
 </style>
