@@ -36,7 +36,7 @@ import InternalLink from './InternalLink.vue';
     }
 
     #welcome {
-        width: 40rem;
+        max-width: 40rem;
         padding: 2rem;
     }
 

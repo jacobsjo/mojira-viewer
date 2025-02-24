@@ -110,6 +110,7 @@ onMounted(async () => {
 
 .backlink {
     width: 1.7rem;
+    min-width: 1.7rem;
     height: 1.7rem;
     font-size: 1.3rem;
     color: var(--text-color);

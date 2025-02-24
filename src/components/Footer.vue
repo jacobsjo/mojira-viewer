@@ -5,8 +5,8 @@ import InternalLink from './InternalLink.vue';
 
 <template>
     <div class="footer">
-        <span>Copyright © 2025 jacobsjo</span>
         <span>NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.</span>
+        <span>Copyright © 2025 jacobsjo</span>
         <InternalLink to="/about">About</InternalLink>
         <a href="https://github.com/jacobsjo/mojira-viewer" target="_blank">Viewer Sourcecode</a>
     </div>
@@ -22,6 +22,7 @@ import InternalLink from './InternalLink.vue';
         font-size: small;
         background-color: var(--footer-bg-color);
         border-top: 1px solid var(--main-border-color);
+        white-space: nowrap;
     }
 
     .footer a{
