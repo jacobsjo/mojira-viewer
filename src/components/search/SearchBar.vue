@@ -39,6 +39,7 @@ async function search() {
 }
 
 const useJql = ref(false)
+const showNoBasicWarning = ref(false)
 
 function switchMode() {
     if (useJql.value === false) {
@@ -48,6 +49,9 @@ function switchMode() {
 
     if (updateBasicSearch()) {
         useJql.value = false
+    } else {
+        showNoBasicWarning.value = true
+        setTimeout(() => showNoBasicWarning.value = false, 2000)
     }
 }
 
@@ -93,7 +97,12 @@ onMounted(async () => {
         </div>
         <BasicSearch v-else v-model="basicSearchData" />
         <button class="search" tabindex="0" @click="search">Search</button>
-        <button class="jql-switcher" tabindex="0" @click="switchMode">{{ useJql ? 'Basic' : 'JQL' }}</button>
+        <div class="jql-switcher-wrapper">
+            <button class="jql-switcher" tabindex="0" @click="switchMode">{{ useJql ? 'Basic' : 'JQL' }}</button>
+            <div v-if="showNoBasicWarning" ref="noBasicTooltip" class="tooltip">
+                The current JQL query can't be represented as a basic search
+            </div>
+        </div>
         <button class="darkmode-switcher" tabindex="0" @click="settingsStore.darkMode = !settingsStore.darkMode"><font-awesome-icon :icon="['fas', settingsStore.darkMode ? 'sun' : 'moon']" /></button>
     </div>
 </template>
@@ -184,6 +193,21 @@ button.darkmode-switcher {
     width: 1.5rem;
     min-width: 1.5rem;
     text-decoration: underline;
+}
+
+.jql-switcher-wrapper {
+    position: relative;
+}
+
+.jql-switcher-wrapper .tooltip {
+    position: absolute;
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--accent-color);
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    right: -2rem;
+    width: 14rem;
+    top: 2.7rem;
 }
 
 </style>
