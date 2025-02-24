@@ -14,6 +14,7 @@ export class IssueFlair {
         PrioNormal: new IssueFlair('mojang-confirmed normal', 'Normal Priority'),
         PrioImportant: new IssueFlair('mojang-confirmed important', 'Important'),
         PrioVeryImportant: new IssueFlair('mojang-confirmed veryImportant', 'Very Important'),
+        InProgress: new IssueFlair('in-progress','In Progress'),
         Fixed: new IssueFlair('fixed', 'Fixed'),
         Duplicate: new IssueFlair('invalid', 'Duplicate'),
         Invalid: new IssueFlair('invalid', 'Invalid'),
@@ -23,7 +24,7 @@ export class IssueFlair {
         Incomplete: new IssueFlair('invalid', 'Incomplete'),
         CannotReproduce: new IssueFlair('invalid', 'Cannot Reproduce'),
         Unknown: new IssueFlair('unknown', '')
-    }
+    } 
 
     public static getIssueFlair(fields: any): IssueFlair {
         if (fields.status.name === 'Open' || fields.status.name === 'Reopened') {
@@ -47,6 +48,8 @@ export class IssueFlair {
                 case "Unconfirmed":
                     return IssueFlair.IssueFlairs.Unconfirmed
             }
+        } else if (fields.status.name === 'In Progress') {
+            return IssueFlair.IssueFlairs.InProgress
         } else {
             switch (fields.resolution?.name) {
                 case 'Fixed':

@@ -19,8 +19,8 @@ import { computed } from 'vue';
                     break;
                 case 'code':
                     style+='font-family: monospace, monospace;'
-                    style+='border: 1px solid gray;'
-                    style+='background-color: #eeeeee;'
+                    style+='border: 1px solid var(--code-border-color);'
+                    style+='background-color: var(--code-bg-color);'
                     style+='padding: 0 0.3rem;'
                     break;
                 case 'em':

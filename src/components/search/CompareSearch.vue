@@ -11,7 +11,6 @@ const meta = FieldMetadata.Compare[query.value.field]
 
 <template>
     <div class="selects">
-        {{ $t(`field.${query.field}.label`) }}&nbsp;
         <v-select class="comp" :options="['<', '<=', '=', '>=', '>']" v-model="query.comparator" :clearable="false" :searchable="false"/>
         <v-select class="version" v-if="meta.options === 'Version'"
             :options="[
@@ -23,8 +22,8 @@ const meta = FieldMetadata.Compare[query.value.field]
             taggable push-tags
             :createOption="(version: string) => ({value: `'${version}'`, label: version})"
             v-model="query.value"/>
-        <input type="date" class="date" v-else-if="meta.options === 'Date'" v-model="query.value"/>
-        <input type="number" class="number" v-else v-model="query.value"/>
+        <input type="date" class="date search-input" v-else-if="meta.options === 'Date'" v-model="query.value"/>
+        <input type="number" class="number search-input" v-else v-model="query.value"/>
     </div>
 </template>
 
@@ -44,12 +43,14 @@ const meta = FieldMetadata.Compare[query.value.field]
 
 .date {
     width: 8rem;
-    height: 1.44rem;
 }
 
 .number {
     width: 4rem;
-    height: 1.44rem;
+}
+
+.search-input {
+    border-radius: 0 var(--vs-border-radius) var(--vs-border-radius) 0;
 }
 
 
@@ -60,4 +61,14 @@ const meta = FieldMetadata.Compare[query.value.field]
     max-height: 1.72rem;
     width: 2rem;
 }
+
+.v-select.comp >div {
+    border-radius: var(--vs-border-radius) 0 0 var(--vs-border-radius);
+}
+
+.v-select.version >div {
+    border-radius: 0 var(--vs-border-radius) var(--vs-border-radius) 0;
+}
+
+
 </style>

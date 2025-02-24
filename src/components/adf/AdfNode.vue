@@ -38,7 +38,7 @@
     .media {
         width: 10rem;
         height: 3rem;
-        border: 1px solid black;
+        border: 1px solid var(--text-color);
     }
 
     pre {
@@ -46,7 +46,8 @@
         box-sizing: border-box;
         overflow-x: scroll;
         padding: 0.8rem 0.4rem;
-        background-color: #eeeeee;
+        background-color: var(--code-bg-color);
+        border: 1px solid var(--code-border-color);
     }
 
 </style>

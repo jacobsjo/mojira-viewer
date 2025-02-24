@@ -5,7 +5,7 @@ const query = defineModel<BasicSearchDataField.Fuzzy>({required: true})
 </script>
 
 <template>
-    <input :placeholder="$t(`search.${query.field}.placeholder`)" v-model="query.value" />
+    <input class="search-input" :placeholder="$t(`search.${query.field}.placeholder`)" v-model="query.value" />
 </template>
 
 <style scoped>
@@ -15,9 +15,7 @@ const query = defineModel<BasicSearchDataField.Fuzzy>({required: true})
 
 input {
     width: 15rem;
-    height: 1.44rem;
 }
-
 
 </style>
 

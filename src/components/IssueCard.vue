@@ -45,7 +45,7 @@ const flair = computed(() => {
 <style scoped>
 .result {
     padding: 0.5rem 0.5rem;
-    color: black;
+    color: unset;
     text-decoration: none;
     width: 100%;
     box-sizing: border-box;
@@ -58,7 +58,7 @@ const flair = computed(() => {
 }
 
 .id {
-    color: blue;
+    color: var(--key-color);
 }
 
 .result:hover .id {

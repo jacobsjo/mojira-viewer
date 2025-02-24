@@ -36,7 +36,7 @@ function addMore(field: { type: string, field: string }) {
 
         <div class="sort">
             <label>Sort:</label>
-            <button class="sortButton" :class="{ asc: data.sortAsc }" @click="data.sortAsc = !data.sortAsc">
+            <button class="sortButton" :class="{ asc: data.sortAsc }" @click="data.sortAsc = !data.sortAsc" :title="`Sort: ${data.sortAsc ? 'Asccending' : 'Descending'}`" >
                 <Arrow />
             </button>
             <v-select class="sortSelect" placeholder=""
@@ -81,6 +81,10 @@ function addMore(field: { type: string, field: string }) {
 
 .sortButton.asc {
     transform: rotateZ(180deg);
+}
+
+.sortButton svg {
+    fill: var(--accent-color);
 }
 
 .sortSelect {

@@ -20,7 +20,7 @@
 <style scoped>
     #results {
         width: 25rem;
-        border-right: 1px solid black;
+        border-right: 1px solid var(--main-border-color);
         height: 100%;
         box-sizing: border-box;
         overflow-y: scroll;
@@ -28,6 +28,7 @@
         display: flex;
         flex-direction: column;
         text-align: left;
+        background-color: var(--results-bg-color);
     }
 
     .more {

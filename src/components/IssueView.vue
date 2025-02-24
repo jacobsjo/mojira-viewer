@@ -77,10 +77,15 @@ const issueLinks = computed(() => {
 watch(
     () => route.params.issue,
     (issue) => {
+        document.title = `${route.params.issue}`
         reloadIssue()
         reloadComments()
     }
 )
+
+watch(issue, (issue) => {
+    document.title = `${route.params.issue}: ${issue.fields.summary}`
+})
 
 onUpdated(() => {
     issueCache.update()
@@ -97,80 +102,101 @@ onUpdated(() => {
             Issue not found
         </div>
         <div v-else id="issue">
+            <div class="headline">
+                <div class="key">
+                    {{ route.params.issue }} <Flair :flair="issueFlair" />
+                </div>
+                <a :href="`https://report.bugs.mojang.com/browse/${route.params.issue}`" target="_blank">View on Servicedesk</a>
+            </div>
             <h1>{{ issue.fields.summary }}</h1>
 
-            <Flair :flair="issueFlair" />
 
-            <DetailEntry title="Status" :value="issue.fields.status.name" />
-            <DetailEntry title="Resolution" :value="issue.fields.resolution?.name ?? 'None'" />
-            <DetailEntry title="Confirmation Status" :value="issue.fields.customfield_10054?.value" />
-            <DetailEntry title="Mojang Priority" :value="issue.fields.customfield_10049?.value" />
+            <DetailEntry title="Status" :values="[issue.fields.status.name]" />
+            <DetailEntry title="Resolution" :values="[issue.fields.resolution?.name ?? 'None']" />
+            <DetailEntry title="Confirmation Status" :values="[issue.fields.customfield_10054?.value]" />
+            <DetailEntry title="Mojang Priority" :values="[issue.fields.customfield_10049?.value]" />
             <DetailEntry title="Affects Version(s)" :values="mapVersionList(issue.fields.versions)" />
             <DetailEntry title="Fix Version(s)" :values="mapVersionList(issue.fields.fixVersions)" />
             <DetailEntry title="Labels" :values="issue.fields.labels" />
             <DetailEntry title="Category"
                 :values="issue.fields.customfield_10055?.map((category: any) => category.value) ?? []" />
-            <DetailEntry title="Area" :value="issue.fields.customfield_10051?.value" />
-            <DetailEntry title="Created" :value="new Date(issue.fields.created).toLocaleString()" />
-            <DetailEntry title="Updated" :value="new Date(issue.fields.updated).toLocaleString()" />
-            <DetailEntry title="Resolved" :value="issue.fields.resolutiondate ? new Date(issue.fields.resolutiondate).toLocaleString() : ''" />
-            <DetailEntry title="Votes" :value="issue.fields.votes.votes.toString()" />
-            <DetailEntry title="Watchers" :value="issue.fields.watches.watchCount.toString()" />
-            <DetailEntry title="ADO" :value="issue.fields.customfield_10050" />
+            <DetailEntry title="Area" :values="[issue.fields.customfield_10051?.value]" />
+            <DetailEntry title="Created" :values="[new Date(issue.fields.created).toLocaleString()]" />
+            <DetailEntry title="Updated" :values="[new Date(issue.fields.updated).toLocaleString()]" />
+            <DetailEntry title="Resolved" :values="[issue.fields.resolutiondate ? new Date(issue.fields.resolutiondate).toLocaleString() : '']" />
+            <DetailEntry title="Votes" :values="[issue.fields.votes.votes.toString()]" />
+            <DetailEntry title="Watchers" :values="[issue.fields.watches.watchCount.toString()]" />
+            <DetailEntry title="ADO" :values="[issue.fields.customfield_10050]" />
 
-            <h3>Description:</h3>
+            <h2>Description:</h2>
             <AdfDoc :node="issue.fields.description" />
 
-            <h3 v-if="issueLinks.size > 0">Issue Links:</h3>
+            <h2 v-if="issueLinks.size > 0">Issue Links:</h2>
             <div class="links">
                 <div class="linkType" v-for="linkType of issueLinks.values()">
                     <div class="inward" v-if="linkType.inward.length > 0">
-                        <h4>{{ linkType.type.inward }}</h4>
+                        <h3>{{ linkType.type.inward }}</h3>
                         <IssueCard v-for="linked of linkType.inward" :issue="linked" />
                     </div>
                     <div class="outward" v-if="linkType.outward.length > 0">
-                        <h4>{{ linkType.type.outward }}</h4>
+                        <h3>{{ linkType.type.outward }}</h3>
                         <IssueCard v-for="linked of linkType.outward" :issue="linked" />
                     </div>
                 </div>
             </div>
 
-            <h3>Comments:</h3>
+            <h2>Comments:</h2>
             <div class="comments">
                 <div v-if="isLoadingComments">Loading</div>
                 <div v-else-if="comments.length === 0">No comments</div>
                 <div class="comment" v-else v-for="comment of comments">
-                    <div class="header"><img class="avatar" :src="comment.author.avatarUrls['16x16']" />
+                    <div class="header"><img class="avatar" :src="comment.author.avatarUrls['16x16']" alt="[user]"/>
                         {{ comment.author.displayName }}: <span class="time"> {{ new
             Date(comment.created).toLocaleString() }}</span></div>
                     <AdfDoc class="content" :node="comment.body" />
                 </div>
             </div>
         </div>
-    </div>
+   </div>
 </template>
 
 
 <style scoped>
 #container {
     max-height: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 #issue {
     text-align: left;
 }
 
+.headline {
+    display: flex;
+    flex-direction: row;
+}
+
+.headline .key {
+    flex-grow: 1;
+    font-size: 1.5rem;
+    color: var(--key-color);
+}
+
 h1 {
     text-align: center
 }
 
-h2,
-h3,
-h4,
-h5,
-h6 {
+h2, h3{
     margin: 0.5rem 0 0.3rem 0;
+    color: var(--accent2-color);
+}
+
+h2 {
+    font-size: 16pt;
+}
+
+h3 {
+    font-size: 12pt;
 }
 
 .comment .header {

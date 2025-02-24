@@ -11,6 +11,7 @@ const emits = defineEmits(['delete'])
 
 <template>
     <div class="searchComponent">
+        <div class="label">{{ $t(`field.${searchData.field}.label`)}}:</div>
         <SelectSearch v-if="(searchData instanceof BasicSearchDataField.Select)" v-model="searchData" />
         <CompareSearch v-else-if="(searchData instanceof BasicSearchDataField.Comparison)" v-model="searchData" />
         <FuzzySearch v-else-if="(searchData instanceof BasicSearchDataField.Fuzzy)" v-model="searchData" />
@@ -24,5 +25,9 @@ const emits = defineEmits(['delete'])
     flex-direction: row;
     align-items: center;
     gap: 0.4rem;
+}
+
+.label {
+    font-size: 8pt;
 }
 </style>

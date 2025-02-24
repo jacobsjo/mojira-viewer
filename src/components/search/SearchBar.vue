@@ -95,9 +95,10 @@ import router from '../../router';
     #searchBar {
         display: flex;
         align-items: center;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid var(--main-border-color);
         padding: 0.5rem;
         gap: 0.7rem;
+        background-color: var(--searchbar-bg-color);
     }
 
     label {
@@ -132,16 +133,26 @@ import router from '../../router';
     }
 
     .button.search {
-        background-color: rgb(34, 174, 221);
+        background-color: rgb(26, 34, 104);
         width: 6rem;
+        color: white;
+        height: 1.7rem;
+        border-radius: 0.3rem;
+        font-weight: bolder;
+        border: 1px solid rgb(212, 212, 212);
     }
 
     .button.search:hover {
-        background-color: rgb(107, 210, 245);
+        background-color: rgb(48, 58, 145);
     }
 
+    .button.search:active {
+        background-color: rgb(97, 106, 184);
+    }
+
+
     .button.mode-switcher {
-        color: blue;
+        color: var(--link-color);
         width: 3rem;
         text-decoration: underline;
     }

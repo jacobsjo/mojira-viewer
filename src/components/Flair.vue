@@ -1,66 +1,120 @@
 <script setup lang="ts">
-    import { IssueFlair } from "../IssueFlair"
+import { IssueFlair } from "../IssueFlair"
 
-    const props = defineProps({
-        flair: IssueFlair,
-    })
+const props = defineProps({
+    flair: IssueFlair,
+})
 </script>
 
 <template>
     <span class="flair" :class="flair?.clss">
         {{ flair?.description }}
     </span>
- </template>
+</template>
 
 
 <style scoped>
-    .flair {
-        padding: 0 0.5rem;
-        border-radius: 1rem;
-        width: fit-content;
-        text-align: bottom;
-        box-sizing: border-box;
-    }
+.flair {
+    padding: 0 0.5rem;
+    border-radius: 1rem;
+    width: fit-content;
+    text-align: bottom;
+    box-sizing: border-box;
+}
 
+.new {
+    border: 1px solid black;
+    color: black;
+}
+
+.confirmed {
+    background-color: rgb(0, 0, 128);
+    color: white;
+}
+
+.mojang-confirmed.low {
+    background-color: darkgreen;
+    color: white;
+}
+
+.mojang-confirmed.normal {
+    background-color: rgb(151, 151, 0);
+    color: white;
+}
+
+.mojang-confirmed.important {
+    background-color: rgb(158, 103, 0);
+    color: white;
+}
+
+.mojang-confirmed.veryImportant {
+    background-color: rgb(155, 0, 0);
+    color: white;
+}
+
+.in-progress {
+    background-color: rgb(133, 6, 172);
+    color: white;
+}
+
+.fixed {
+    border: 1px solid darkgreen;
+    background-color: rgb(225, 255, 222);
+    color: darkgreen;
+}
+
+.invalid {
+    border: 1px solid rgb(68, 68, 68);
+    background-color: rgb(163, 163, 163);
+    color: rgb(43, 43, 43)
+}
+
+@media (prefers-color-scheme: dark) {
     .new {
-        border: 1px solid black;
+        border: 1px solid rgb(187, 187, 187);
+        color: rgb(187, 187, 187);
     }
 
     .confirmed {
-        background-color: rgb(0, 0, 128);
-        color: white;
+        background-color: rgb(135, 135, 211);
+        color: black;
     }
 
     .mojang-confirmed.low {
-        background-color: darkgreen;
-        color: white;
+        background-color: rgb(89, 189, 89);
+        color: black;
     }
 
     .mojang-confirmed.normal {
-        background-color: rgb(151, 151, 0);
-        color: white;
+        background-color: rgb(228, 228, 93);
+        color: black;
     }
 
     .mojang-confirmed.important {
-        background-color: rgb(158, 103, 0);
-        color: white;
+        background-color: rgb(226, 159, 36);
+        color: black;
     }
 
     .mojang-confirmed.veryImportant {
-        background-color: rgb(155, 0, 0);
-        color: white;
+        background-color: rgb(214, 46, 46);
+        color: black;
+    }
+
+    .in-progress {
+        background-color: rgb(186, 84, 218);
+        color: black;
     }
 
     .fixed {
-        border: 1px solid darkgreen;
-        background-color: rgb(225, 255, 222);
-        color: darkgreen;
+        border: 1px solid rgb(126, 196, 126);;
+        background-color: rgb(15, 61, 11);
+        color: rgb(126, 196, 126);
     }
 
     .invalid {
         border: 1px solid rgb(68, 68, 68);
-        background-color: rgb(163, 163, 163);
-        color:rgb(68, 68, 68)
+        background-color: rgb(65, 65, 65);
+        color: rgb(211, 211, 211)
     }
-
+}
 </style>

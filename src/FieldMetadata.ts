@@ -42,6 +42,7 @@ export namespace FieldMetadata {
         status: {
             options: [
                 "Open",
+                "In Progress",
                 "Reopened",
                 "Resolved"
             ]
@@ -63,7 +64,7 @@ export namespace FieldMetadata {
             options: [
                 "Unconfirmed",
                 "Confirmed",
-                "Comunity Consensus",
+                "Community Consensus",
                 "Plausible"
             ]
         },

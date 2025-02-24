@@ -32,6 +32,10 @@ const issue = computed(() => issueCache.cache.get(props.issueKey ?? '')?.issue)
         gap: 0.2rem;
     }
 
+    .issueLink .key{
+        color: var(--key-color);
+    }
+
     .issueLink:hover .key{
         text-decoration: underline;
     }
