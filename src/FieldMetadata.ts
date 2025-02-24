@@ -3,11 +3,11 @@ export namespace FieldMetadata {
     export const seachable = [
         "status",
         "resolution",
-        "Confirmation Status",
-        "Mojang Priority",
-        "category",
+        "cf[10054]",
+        "cf[10049]",
+        "cf[10051]",
         "labels",
-        "Area",
+        "cf[10055]",
         "reporter",
         "affectedVersion",
         "fixVersion",
@@ -19,7 +19,7 @@ export namespace FieldMetadata {
     ]
 
     export const sortable = [
-        "Mojang Priority",
+        'cf[10049]',
         "affectedVersion",
         "fixVersion",
         "created",
@@ -60,7 +60,7 @@ export namespace FieldMetadata {
                 "Cannot Reproduce"
             ]
         },
-        "Confirmation Status": {
+        'cf[10054]': {
             options: [
                 "Unconfirmed",
                 "Confirmed",
@@ -68,7 +68,7 @@ export namespace FieldMetadata {
                 "Plausible"
             ]
         },
-        "Mojang Priority": {
+        'cf[10049]': {
             options: [
                 'EMPTY',
                 "Low",
@@ -77,7 +77,7 @@ export namespace FieldMetadata {
                 "Very Important"
             ]
         },
-        category: {
+        'cf[10055]': {
             options: [],
             any: true
         },
@@ -85,7 +85,7 @@ export namespace FieldMetadata {
             options: [],
             any: true
         },
-        "Area": {
+        'cf[10051]': {
             options: [],
             any: true
         },
