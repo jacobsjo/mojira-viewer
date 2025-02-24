@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Footer from "./components/Footer.vue";
 import SearchBar from "./components/search/SearchBar.vue"
 import SearchResults from "./components/SearchResults.vue"
 import { useSettingsStore } from "./stores/SettingsStore";
@@ -13,6 +14,7 @@ const settingsStore = useSettingsStore()
       <SearchResults />
       <router-view class="view" />
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -21,6 +23,7 @@ const settingsStore = useSettingsStore()
   --searchbar-bg-color: rgb(255, 242, 230);
   --main-border-color: rgb(153, 153, 153);
   --results-bg-color: rgb(224, 232, 233);
+  --footer-bg-color: rgb(255, 242, 230);
   --main-bg-color: rgb(255, 255, 255);
   --input-bg-color: white;
   --input-text-color: black;
@@ -47,6 +50,7 @@ const settingsStore = useSettingsStore()
   --searchbar-bg-color: rgb(19, 19, 19);
   --main-border-color: rgb(86, 104, 163);
   --results-bg-color: rgb(39, 39, 39);
+  --footer-bg-color: rgb(19, 19, 19);
   --main-bg-color: rgb(34, 34, 34);
   --input-bg-color: black;
   --input-text-color: white;

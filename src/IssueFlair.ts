@@ -18,7 +18,7 @@ export class IssueFlair {
         Fixed: new IssueFlair('fixed', 'Fixed'),
         Duplicate: new IssueFlair('invalid', 'Duplicate'),
         Invalid: new IssueFlair('invalid', 'Invalid'),
-        WorksAsIntended: new IssueFlair('invalid', 'Work As Intended'),
+        WorksAsIntended: new IssueFlair('invalid', 'Works As Intended'),
         WontFix: new IssueFlair('invalid', 'Won\'t Fix'),
         AwaitingResponse: new IssueFlair('invalid', 'Awaiting Response'),
         Incomplete: new IssueFlair('invalid', 'Incomplete'),

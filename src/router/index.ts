@@ -1,12 +1,18 @@
 import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
-import EmptyView from '../components/EmptyView.vue'
+import WelcomeView from '../components/WelcomeView.vue'
 import IssueView from '../components/IssueView.vue'
+import AboutView from '../components/AboutView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'empty',
-    component: EmptyView
+    component: WelcomeView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: AboutView
   },
   {
     path: '/browse/:issue',

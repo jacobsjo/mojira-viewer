@@ -213,7 +213,9 @@ h3 {
 }
 
 .comment .avatar {
+    width: 1.5rem;
     height: 1.5rem;
+    border-radius: 2rem;
 }
 
 .comment .time {

@@ -9,6 +9,7 @@ import { reactive } from 'vue';
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import router from '../../router';
+import InternalLink from '../InternalLink.vue';
 const defaultJql = 'resolution = Unresolved AND "created" IS NOT EMPTY ORDER BY "created" DESC'
 const route = useRoute()
 
@@ -85,9 +86,10 @@ onMounted(async () => {
 
 <template>
     <div id="searchBar">
+        <InternalLink class="backlink" to="/"><font-awesome-icon :icon="['fas', 'house']" /></InternalLink>
         <div class="jqlSearch" v-if="useJql">
             <label>JQL: </label>
-            <input id="jql" v-model="jql" />
+            <input id="jql" class="search-input" v-model="jql" />
         </div>
         <BasicSearch v-else v-model="basicSearchData" />
         <button class="search" tabindex="0" @click="search">Search</button>
@@ -104,6 +106,14 @@ onMounted(async () => {
     padding: 0.5rem;
     gap: 0.7rem;
     background-color: var(--searchbar-bg-color);
+}
+
+.backlink {
+    width: 1.7rem;
+    height: 1.7rem;
+    font-size: 1.3rem;
+    color: var(--text-color);
+    line-height: 1.7rem;
 }
 
 label {
@@ -124,14 +134,14 @@ select {
 
 #jql {
     flex-grow: 1;
-    height: 1.44rem;
+    height: 1.55rem;
 }
 
 button {
     height: 1.6rem;
     padding: auto;
     text-align: center;
-    line-height: 1.7rem;
+    line-height: 1.6rem;
     box-sizing: border-box;
     cursor: pointer;
     user-select: none;
