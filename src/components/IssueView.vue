@@ -22,7 +22,7 @@ export const useIssueData = defineBasicLoader('getIssue', async (route) => {
     return issueCache.getIssue(route.params.issue as string)
 })
 
-export const useComments = defineBasicLoader('getComments', async (route) => {
+export const useComments = defineBasicLoader('getComments', async (route, context) => {
     return await getComments(route.params.issue as string)
 })
 
@@ -100,6 +100,9 @@ onUpdated(() => {
             <Spinner />
         </div>
         <div v-else-if="errorIssue" id="error">
+            {{ errorIssue.message }}
+        </div>
+        <div v-else-if="issue === undefined" id="notfound">
             Issue not found
         </div>
         <div v-else id="issue">
@@ -149,6 +152,7 @@ onUpdated(() => {
             <h2>Comments:</h2>
             <div class="comments">
                 <div v-if="isLoadingComments"><Spinner /></div>
+                <div v-else-if="errorComments" class="comment-error">{{ errorComments.message }}</div>
                 <div v-else-if="comments.length === 0">No comments</div>
                 <div class="comment" v-else v-for="comment of comments">
                     <div class="header"><img class="avatar" :src="comment.author.avatarUrls['16x16']" alt="[user]"/>
@@ -171,6 +175,11 @@ onUpdated(() => {
 #loading {
     padding: 20rem;
     font-size: 50pt;
+}
+
+#error {
+    background-color: var(--error-bg-color);
+    padding: 0.5rem;
 }
 
 #issue {
@@ -205,6 +214,11 @@ h3 {
     font-size: 12pt;
 }
 
+.comment-error {
+    background-color: var(--error-bg-color);
+    padding: 0.5rem;
+}
+
 .comment .header {
     font-weight: bold;
     display: flex;
@@ -226,4 +240,3 @@ h3 {
     padding: 0.25rem;
 }
 </style>
-../IssueFlair../stores/IssueCache

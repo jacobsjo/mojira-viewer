@@ -21,28 +21,6 @@ export async function search(jql: string, startAt: number = 0): Promise<any> {
     return await response.json()
 }
 
-export async function getIssue(id: string): Promise<any> {
-    const project = id.split('-')[0]
-    const response = await fetch('https://bugs.mojang.com/api/jql-search-post', {
-        method: "POST",
-        headers: new Headers([["Content-Type", "application/json"]]),
-        body: JSON.stringify({
-            "advanced": true,
-            "project": project,
-            "startAt": 0,
-            "maxResults": 1,
-            "search": `key = ${id}`
-        })
-    })
-    const searchResult = await response.json()
-
-    if (searchResult.issues === undefined || searchResult.issues.length !== 1) {
-        throw new Error('Could not find issue')
-    }
-
-    return searchResult.issues[0]
-}
-
 export async function getIssues(ids: string[]): Promise<any> {
     const response = await fetch('https://bugs.mojang.com/api/jql-search-post', {
         method: "POST",
@@ -58,7 +36,7 @@ export async function getIssues(ids: string[]): Promise<any> {
     const searchResult = await response.json()
 
     if (searchResult.issues === undefined) {
-        throw new Error('Could not find issues')
+        return []
     }
 
     return searchResult.issues

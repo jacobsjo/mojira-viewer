@@ -7,6 +7,7 @@ import Spinner from './Spinner.vue';
     const searchResultsStore = useSearchResultStore()
 
     function loadMore(){
+        console.log(searchResultsStore.error)
         searchResultsStore.searchMore()
     }
 </script>
@@ -14,7 +15,8 @@ import Spinner from './Spinner.vue';
 <template>
     <div id="results">
         <IssueCard v-for="issue of searchResultsStore.searchResults" :issue="issue" />
-        <Spinner v-if="searchResultsStore.isLoading" />
+        <div class="error" v-if="searchResultsStore.error !== ''">{{ searchResultsStore.error }}</div>
+        <div class="spinner-container"><Spinner v-if="searchResultsStore.isLoading" /></div>
         <div class="card more" v-if="!searchResultsStore.hasAll" @click="loadMore" @keypress:enter="loadMore" tabindex="0">
             Load more
         </div>
@@ -35,9 +37,21 @@ import Spinner from './Spinner.vue';
         background-color: var(--results-bg-color);
     }
 
+    .error {
+        text-align: center;
+        height: 3rem;
+        line-height: 3rem;
+        background-color: var(--error-bg-color);
+    }
+
     .spinner {
         font-size: 18px;
         margin-top: 1rem;
+    }
+
+    .spinner-container {
+        height: 2rem;
+        text-align: center;        
     }
 
     .more {
@@ -45,4 +59,5 @@ import Spinner from './Spinner.vue';
         text-align: center;
         line-height: 3.5rem;
     }
+
 </style>

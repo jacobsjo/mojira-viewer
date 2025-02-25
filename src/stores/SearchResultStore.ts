@@ -8,6 +8,7 @@ export const useSearchResultStore = defineStore('searchResult', () => {
     const searchResults = ref<any[]>([])
     const total = ref(0)
     const isLoading = ref(false)
+    const error = ref<string>("")
 
     var jql: string = ''
 
@@ -15,26 +16,34 @@ export const useSearchResultStore = defineStore('searchResult', () => {
         jql = _jql
 
         searchResults.value = []
-        isLoading.value = true
         total.value = 0
 
-        const response = await searchApi(jql)
-        issueCache.storeIssues(response.issues)
-        searchResults.value = response.issues
-        isLoading.value = false
-        total.value = response.total
+        searchMore()
     }
 
     async function searchMore(){
         isLoading.value = true
-        const response = await searchApi(jql, searchResults.value.length)
-        issueCache.storeIssues(response.issues)
-        searchResults.value = searchResults.value.concat(response.issues)
+        try {
+            const response = await searchApi(jql, searchResults.value.length)
+            if (response.statusCode && response.statusCode >= 400){
+                error.value = "Invalid search query"
+            } else {
+                issueCache.storeIssues(response.issues)
+                searchResults.value = searchResults.value.concat(response.issues)
+                total.value = response.total
+                error.value = ""
+            }
+        } catch (e) {
+            if (e instanceof Error){
+                error.value = e.message
+            } else {
+                error.value = "unknown error during search"
+            }
+        }
         isLoading.value = false
-        total.value = response.total
     }
 
     const hasAll = computed(() => searchResults.value.length >= total.value)
 
-    return { searchResults, isLoading, search, searchMore, hasAll }
+    return { searchResults, isLoading, error, search, searchMore, hasAll }
 })

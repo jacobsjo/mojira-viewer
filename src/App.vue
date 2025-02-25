@@ -25,6 +25,7 @@ const settingsStore = useSettingsStore()
   --results-bg-color: rgb(224, 232, 233);
   --footer-bg-color: rgb(255, 242, 230);
   --main-bg-color: rgb(255, 255, 255);
+  --error-bg-color: rgb(255, 94, 94);
   --input-bg-color: white;
   --input-text-color: black;
   --link-color: rgb(0, 26, 255);
@@ -52,6 +53,7 @@ const settingsStore = useSettingsStore()
   --results-bg-color: rgb(39, 39, 39);
   --footer-bg-color: rgb(19, 19, 19);
   --main-bg-color: rgb(34, 34, 34);
+  --error-bg-color: rgb(158, 0, 0);
   --input-bg-color: black;
   --input-text-color: white;
   --accent-color: rgb(78, 99, 131);

@@ -17,16 +17,31 @@ export const useIssueCache = defineStore('issueCache', () => {
     }
 
     async function update(){
-        while (cacheRequests.size > 0){
-            const issues = await getIssues(Array.from(cacheRequests))
-            storeIssues(issues)
+        try {
+            var lastSize = Number.POSITIVE_INFINITY
+            while (cacheRequests.size > 0 && cacheRequests.size < lastSize){
+                lastSize = cacheRequests.size
+                const issues = await getIssues(Array.from(cacheRequests))
+                storeIssues(issues)
+            }
+            cacheRequests.clear()
+            return true
+        } catch {
+            cacheRequests.clear()
+            return false
         }
     }
 
-    async function getIssue(key: string, maxAge: number = 1000*60*15 /* 15 Minutes */){
+    async function getIssue(key: string, maxAge: number = 1000*60*15 /* 15 Minutes */): Promise<any>{
         registerInterest(key, maxAge)
-        await update()
-        return cache.get(key)?.issue
+        const sucess = await update()
+        if (cache.has(key)){
+            return cache.get(key)?.issue
+        } else if (sucess) {
+            return undefined
+        } else {
+            throw new TypeError('NetworkError trying to get Issue')
+        }
     }
 
     function storeIssues(issues: any[]){
