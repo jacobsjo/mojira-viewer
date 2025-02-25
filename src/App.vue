@@ -32,7 +32,7 @@ watch(isMobile, (isMobile) => {
       <SearchBar :class="{hidden: isMobile && !showSearch}" @search="showSearch = false"/>
     </div>
     <div id="main">
-      <SearchResults :class="{hidden: isMobile && route.name !== 'browse', view: isMobile}" />
+      <SearchResults class="searchResults" :class="{hidden: isMobile && route.name !== 'browse', view: isMobile}" />
       <router-view v-if="!isMobile || route.name !== 'browse'" class="view" />
     </div>
     <Footer v-if="!isMobile" />
@@ -138,6 +138,10 @@ body {
 .topbar {
   background-color: var(--searchbar-bg-color);
   border-bottom: 1px solid var(--main-border-color);
+}
+
+.searchResults:not(.view){
+  border-right: 1px solid var(--main-border-color);
 }
 
 .view {

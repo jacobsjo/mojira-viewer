@@ -26,7 +26,6 @@ import Spinner from './Spinner.vue';
 <style scoped>
     #results {
         width: 25rem;
-        border-right: 1px solid var(--main-border-color);
         height: 100%;
         box-sizing: border-box;
         overflow-y: scroll;
