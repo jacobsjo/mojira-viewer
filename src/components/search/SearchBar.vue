@@ -104,7 +104,7 @@ onMounted(async () => {
         </div>
         <BasicSearch v-else v-model="basicSearchData" />
         <div class="buttons">
-            <button class="search" tabindex="0" @click="search">Search</button>
+            <button class="search" tabindex="0" @click="() => search()">Search</button>
             <div class="jql-switcher-wrapper">
                 <button class="jql-switcher" tabindex="0" @click="switchMode">{{ useJql ? 'Basic' : 'JQL' }}</button>
                 <div v-if="showNoBasicWarning" ref="noBasicTooltip" class="tooltip">
