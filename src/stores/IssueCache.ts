@@ -16,19 +16,28 @@ export const useIssueCache = defineStore('issueCache', () => {
             cacheRequests.add(key)
     }
 
-    async function update(){
-        try {
-            var lastSize = Number.POSITIVE_INFINITY
-            while (cacheRequests.size > 0 && cacheRequests.size < lastSize){
-                lastSize = cacheRequests.size
-                const issues = await getIssues(Array.from(cacheRequests))
-                storeIssues(issues)
+    var currentUpdate: Promise<boolean> | undefined = undefined
+
+    function update(): Promise<boolean>{
+        if (currentUpdate == undefined){
+            currentUpdate = u()
+        } 
+        return currentUpdate
+
+        async function u(){
+            try {
+                var lastSize = Number.POSITIVE_INFINITY
+                while (cacheRequests.size > 0 && cacheRequests.size < lastSize){
+                    lastSize = cacheRequests.size
+                    const issues = await getIssues(Array.from(cacheRequests))
+                    storeIssues(issues)
+                }
+                cacheRequests.clear()
+                return true
+            } catch {
+                cacheRequests.clear()
+                return false
             }
-            cacheRequests.clear()
-            return true
-        } catch {
-            cacheRequests.clear()
-            return false
         }
     }
 
