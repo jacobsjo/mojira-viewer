@@ -10,11 +10,16 @@ import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import router from '../../router';
 import InternalLink from '../InternalLink.vue';
+import { useIsMobile } from '../../Mobile';
 const defaultJql = 'resolution = Unresolved AND "created" IS NOT EMPTY ORDER BY "created" DESC'
 const route = useRoute()
 
 const searchResultsStore = useSearchResultStore()
 const settingsStore = useSettingsStore()
+
+const isMobile = useIsMobile()
+
+const emit = defineEmits(['search'])
 
 const jql = ref(defaultJql);
 const basicSearchData = reactive<BasicSearchData>({
@@ -29,13 +34,15 @@ watch(basicSearchData, () => {
     jql.value = BasicSearchData.toJql(basicSearchData)
 })
 
-async function search() {
+async function search(switchRoute = true) {
     searchResultsStore.search(jql.value)
     router.push({
+        name: isMobile.value && switchRoute ? 'browse' : undefined,
         query: {
             jql: jql.value === defaultJql ? undefined : jql.value
         }
     })
+    emit('search')
 }
 
 const useJql = ref(false)
@@ -74,7 +81,7 @@ watch(() => route.query.jql, (queryJql) => {
         console.log("query update")
         jql.value = queryJql as string
         useJql.value = !updateBasicSearch()
-        search()
+        search(false)
     }
 })
 
@@ -82,28 +89,30 @@ onMounted(async () => {
     await router.isReady()
     if (route.query.jql === undefined) {
         useJql.value = !updateBasicSearch()
-        search()
+        search(false)
     }
 })
 
 </script>
 
 <template>
-    <div id="searchBar">
-        <InternalLink class="backlink" to="/"><font-awesome-icon :icon="['fas', 'house']" /></InternalLink>
+    <div id="searchBar" :class="{mobile: isMobile}">
+        <InternalLink v-if="!isMobile" class="backlink" to="/"><font-awesome-icon :icon="['fas', 'house']" /></InternalLink>
         <div class="jqlSearch" v-if="useJql">
             <label>JQL: </label>
             <input id="jql" class="search-input" v-model="jql" />
         </div>
         <BasicSearch v-else v-model="basicSearchData" />
-        <button class="search" tabindex="0" @click="search">Search</button>
-        <div class="jql-switcher-wrapper">
-            <button class="jql-switcher" tabindex="0" @click="switchMode">{{ useJql ? 'Basic' : 'JQL' }}</button>
-            <div v-if="showNoBasicWarning" ref="noBasicTooltip" class="tooltip">
-                The current JQL query can't be represented as a basic search
+        <div class="buttons">
+            <button class="search" tabindex="0" @click="search">Search</button>
+            <div class="jql-switcher-wrapper">
+                <button class="jql-switcher" tabindex="0" @click="switchMode">{{ useJql ? 'Basic' : 'JQL' }}</button>
+                <div v-if="showNoBasicWarning" ref="noBasicTooltip" class="tooltip">
+                    The current JQL query can't be represented as a basic search
+                </div>
             </div>
+            <button v-if="!isMobile" class="darkmode-switcher" tabindex="0" @click="settingsStore.darkMode = !settingsStore.darkMode"><font-awesome-icon :icon="['fas', settingsStore.darkMode ? 'sun' : 'moon']" /></button>
         </div>
-        <button class="darkmode-switcher" tabindex="0" @click="settingsStore.darkMode = !settingsStore.darkMode"><font-awesome-icon :icon="['fas', settingsStore.darkMode ? 'sun' : 'moon']" /></button>
     </div>
 </template>
 
@@ -111,10 +120,12 @@ onMounted(async () => {
 #searchBar {
     display: flex;
     align-items: start;
-    border-bottom: 1px solid var(--main-border-color);
     padding: 0.5rem;
     gap: 0.7rem;
-    background-color: var(--searchbar-bg-color);
+}
+
+#searchBar.mobile {
+    flex-direction: column;
 }
 
 .backlink {
@@ -142,9 +153,18 @@ select {
     display: flex;
 }
 
+#searchBar.mobile .jqlSearch {
+    width: 100%;
+}
+
 #jql {
     flex-grow: 1;
     height: 1.55rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 0.7rem;
 }
 
 button {
@@ -208,6 +228,11 @@ button.darkmode-switcher {
     right: -2rem;
     width: 14rem;
     top: 2.7rem;
+}
+
+#searchBar.mobile .jql-switcher-wrapper .tooltip {
+    right: unset;
+    left: -2rem;
 }
 
 </style>

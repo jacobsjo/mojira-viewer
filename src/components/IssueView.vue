@@ -12,6 +12,7 @@ import IssueCard from './IssueCard.vue'
 import { onUpdated } from 'vue'
 import { useIssueCache } from '../stores/IssueCache'
 import Spinner from './Spinner.vue'
+import { onMounted } from 'vue'
 
 // TODO sanitise route.params.issue
 
@@ -83,6 +84,12 @@ watch(
         reloadComments()
     }
 )
+
+onMounted(() => {
+    document.title = `${route.params.issue}`
+    reloadIssue()
+    reloadComments()
+})
 
 watch(issue, (issue) => {
     document.title = `${route.params.issue}: ${issue.fields.summary}`
@@ -173,7 +180,7 @@ onUpdated(() => {
 }
 
 #loading {
-    padding: 20rem;
+    padding-top: 15rem;
     font-size: 50pt;
 }
 
@@ -195,6 +202,10 @@ onUpdated(() => {
     flex-grow: 1;
     font-size: 1.5rem;
     color: var(--key-color);
+}
+
+.headline a {
+    text-align: right;
 }
 
 h1 {

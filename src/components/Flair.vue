@@ -20,6 +20,7 @@ const props = defineProps({
     width: fit-content;
     text-align: bottom;
     box-sizing: border-box;
+    white-space: nowrap;
 }
 
 .new {

@@ -12,6 +12,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@intlify/unplugin-vue-i18n": "^6.0.3",
+    "@vueuse/core": "^12.7.0",
     "pinia": "^3.0.1",
     "unplugin-vue-router": "^0.11.2",
     "vue": "^3.5.13",

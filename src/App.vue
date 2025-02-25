@@ -1,20 +1,41 @@
 <script setup lang="ts">
+import { watch } from "vue";
 import Footer from "./components/Footer.vue";
 import SearchBar from "./components/search/SearchBar.vue"
 import SearchResults from "./components/SearchResults.vue"
 import { useSettingsStore } from "./stores/SettingsStore";
+import { useIsMobile } from './Mobile'
+import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
+import MobileNav from "./components/MobileNav.vue";
+import { ref } from "vue";
 
 const settingsStore = useSettingsStore()
+const route = useRoute()
+const router = useRouter()
+const isMobile = useIsMobile()
+
+const showSearch = ref(false)
+
+watch(isMobile, (isMobile) => {
+  if (!isMobile && route.name === 'browse'){
+    router.push({ name: 'welcome', query: route.query})
+  }
+})
+
 </script>
 
 <template>
   <div class="app" :class="{ dark: settingsStore.darkMode }">
-    <SearchBar />
-    <div id="main">
-      <SearchResults />
-      <router-view class="view" />
+    <div class="topbar">
+      <MobileNav v-if="isMobile" v-model:show-search="showSearch" />
+      <SearchBar :class="{hidden: isMobile && !showSearch}" @search="showSearch = false"/>
     </div>
-    <Footer />
+    <div id="main">
+      <SearchResults :class="{hidden: isMobile && route.name !== 'browse', view: isMobile}" />
+      <router-view v-if="!isMobile || route.name !== 'browse'" class="view" />
+    </div>
+    <Footer v-if="!isMobile" />
   </div>
 </template>
 
@@ -114,6 +135,11 @@ body {
   height: 100%;
 }
 
+.topbar {
+  background-color: var(--searchbar-bg-color);
+  border-bottom: 1px solid var(--main-border-color);
+}
+
 .view {
   flex-grow: 1;
   width: 0;
@@ -127,6 +153,10 @@ body {
   border-radius: 0.3rem;
   background-color: var(--input-bg-color);
   color: var(--input-text-color)
+}
+
+.hidden {
+  display: none !important;
 }
 
 .v-select>div {
