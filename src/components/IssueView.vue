@@ -110,7 +110,7 @@ onUpdated(() => {
                 <div class="key">
                     {{ route.params.issue }} <Flair :flair="issueFlair" />
                 </div>
-                <a :href="`https://report.bugs.mojang.com/browse/${route.params.issue}`" target="_blank">View on Servicedesk</a>
+                <a :href="`https://report.bugs.mojang.com/servicedesk/customer/portal/2/${route.params.issue}`" target="_blank">View on Servicedesk</a>
             </div>
             <h1>{{ issue.fields.summary }}</h1>
 
