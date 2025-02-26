@@ -1,17 +1,18 @@
 import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
-import WelcomeView from '../components/WelcomeView.vue'
+import HomeView from '../components/HomeView.vue'
 import IssueView from '../components/IssueView.vue'
 import AboutView from '../components/AboutView.vue'
 import SearchResults from '../components/SearchResults.vue'
 import { useWindowSize } from '@vueuse/core'
+import { useIsMobile } from '../Mobile'
 
-const { width, height } = useWindowSize()
+const isMobile = useIsMobile()
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'welcome',
-    component: WelcomeView
+    name: 'home',
+    component: HomeView
   },
   {
     path: '/about',
@@ -38,8 +39,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
-  if (from.name === undefined && to.name === 'browse' && width.value > 800 ){
-    return {name: 'welcome', query: to.query}
+  if (from.name === undefined && to.name === 'browse' && !isMobile.value ){
+    return {name: 'home', query: to.query}
   }
 })
 

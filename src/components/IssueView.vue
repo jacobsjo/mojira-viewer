@@ -92,7 +92,9 @@ onMounted(() => {
 })
 
 watch(issue, (issue) => {
-    document.title = `${route.params.issue}: ${issue.fields.summary}`
+    if (issue !== undefined){
+        document.title = `${route.params.issue}: ${issue.fields.summary}`
+    }
 })
 
 onUpdated(() => {

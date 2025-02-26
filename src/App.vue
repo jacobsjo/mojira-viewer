@@ -19,7 +19,7 @@ const showSearch = ref(false)
 
 watch(isMobile, (isMobile) => {
   if (!isMobile && route.name === 'browse'){
-    router.push({ name: 'welcome', query: route.query})
+    router.push({ name: 'home', query: route.query})
   }
 })
 
