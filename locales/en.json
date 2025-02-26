@@ -15,6 +15,6 @@
     "field.created.label": "Created at",
     "field.updated.label": "Updated at",
     "field.resolved.label": "Resolved at",
-    "field.votes.label": "Votes",
+    "field.cf[10070].label": "Votes",
     "field.watchers.label": "Watchers"
 }

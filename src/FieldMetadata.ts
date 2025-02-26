@@ -14,7 +14,7 @@ export namespace FieldMetadata {
         "created",
         "updated",
         "resolved",
-        "votes",
+        "cf[10070]",
         "watchers",
     ]
 
@@ -25,7 +25,7 @@ export namespace FieldMetadata {
         "created",
         "updated",
         "resolved",
-        "votes",
+        "cf[10070]",
         "watchers",
     ]
 
@@ -111,7 +111,7 @@ export namespace FieldMetadata {
         resolved: {
             options: "Date"
         },
-        votes: {
+        'cf[10070]': {
             options: "Number"
         },
         watchers: {
