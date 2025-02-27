@@ -191,6 +191,7 @@ onUpdated(() => {
 
 #issue {
     text-align: left;
+    width: 100%;
 }
 
 .headline {

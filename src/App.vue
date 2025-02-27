@@ -31,9 +31,11 @@ watch(isMobile, (isMobile) => {
       <MobileNav v-if="isMobile" v-model:show-search="showSearch" />
       <SearchBar :class="{hidden: isMobile && !showSearch}" @search="showSearch = false"/>
     </div>
-    <div id="main">
-      <SearchResults class="searchResults" :class="{hidden: isMobile && route.name !== 'browse', view: isMobile}" />
-      <router-view v-if="!isMobile || route.name !== 'browse'" class="view" />
+    <div id="searchAndMain">
+      <SearchResults class="searchResults" :class="{hidden: isMobile && route.name !== 'browse', main: isMobile}" />
+      <div class="main" v-if="!isMobile || route.name !== 'browse'">
+        <router-view class="view" />
+      </div>
     </div>
     <Footer v-if="!isMobile" />
   </div>
@@ -46,6 +48,7 @@ watch(isMobile, (isMobile) => {
   --results-bg-color: rgb(224, 232, 233);
   --footer-bg-color: rgb(255, 242, 230);
   --main-bg-color: rgb(255, 255, 255);
+  --main-off-bg-color: rgb(221, 221, 221);
   --error-bg-color: rgb(255, 94, 94);
   --input-bg-color: white;
   --input-text-color: black;
@@ -74,6 +77,7 @@ watch(isMobile, (isMobile) => {
   --results-bg-color: rgb(39, 39, 39);
   --footer-bg-color: rgb(19, 19, 19);
   --main-bg-color: rgb(34, 34, 34);
+  --main-off-bg-color: rgb(17, 17, 17);
   --error-bg-color: rgb(158, 0, 0);
   --input-bg-color: black;
   --input-text-color: white;
@@ -116,7 +120,7 @@ watch(isMobile, (isMobile) => {
   flex-direction: column;
 }
 
-#main {
+#searchAndMain {
   flex-grow: 1;
   height: 0;
   display: flex;
@@ -144,11 +148,22 @@ body {
   border-right: 1px solid var(--main-border-color);
 }
 
-.view {
+.main {
   flex-grow: 1;
   width: 0;
-  padding: 1rem;
+  background-color: var(--main-off-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.view {
+  width: 95rem;
+  max-width: 100%;
   background-color: var(--main-bg-color);
+  padding: 1rem;
+  height: 100%;
+  box-sizing: border-box
 }
 
 .search-input {
