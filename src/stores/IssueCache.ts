@@ -16,28 +16,28 @@ export const useIssueCache = defineStore('issueCache', () => {
             cacheRequests.add(key)
     }
 
-    var currentUpdate: Promise<boolean> | undefined = undefined
-
-    function update(): Promise<boolean>{
-        if (currentUpdate == undefined){
-            currentUpdate = u()
-        } 
-        return currentUpdate
-
-        async function u(){
-            try {
-                var lastSize = Number.POSITIVE_INFINITY
-                while (cacheRequests.size > 0 && cacheRequests.size < lastSize){
-                    lastSize = cacheRequests.size
-                    const issues = await getIssues(Array.from(cacheRequests))
-                    storeIssues(issues)
+    async function update(): Promise<boolean>{
+        const toUpdate = new Set(cacheRequests)
+        cacheRequests.clear()
+        try {
+            var lastSize = Number.POSITIVE_INFINITY
+            while (toUpdate.size > 0 && toUpdate.size < lastSize){
+                lastSize = toUpdate.size
+                const issues = await getIssues(Array.from(toUpdate))
+                storeIssues(issues)
+                for (const issue of issues){
+                    toUpdate.delete(issue.key)
                 }
-                cacheRequests.clear()
-                return true
-            } catch {
-                cacheRequests.clear()
-                return false
             }
+            if (toUpdate.size > 0)
+                console.warn(`some issues couldnt get fetched: ${Array.from(toUpdate)}`)
+
+            return true
+        } catch {
+            if (toUpdate.size > 0)
+                console.warn(`some issues couldnt get fetched: ${Array.from(toUpdate)}`)
+
+            return false
         }
     }
 

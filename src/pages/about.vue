@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InternalLink from './InternalLink.vue';
+import InternalLink from '../components/InternalLink.vue';
 
 
 </script>

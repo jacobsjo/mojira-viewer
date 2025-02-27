@@ -18,8 +18,8 @@ const isMobile = useIsMobile()
 const showSearch = ref(false)
 
 watch(isMobile, (isMobile) => {
-  if (!isMobile && route.name === 'browse'){
-    router.push({ name: 'welcome', query: route.query})
+  if (!isMobile && route.path === '/browse'){
+    router.push({ path: '/', query: route.query})
   }
 })
 
@@ -32,8 +32,8 @@ watch(isMobile, (isMobile) => {
       <SearchBar :class="{hidden: isMobile && !showSearch}" @search="showSearch = false"/>
     </div>
     <div id="searchAndMain">
-      <SearchResults class="searchResults" :class="{hidden: isMobile && route.name !== 'browse', main: isMobile}" />
-      <div class="main" v-if="!isMobile || route.name !== 'browse'">
+      <SearchResults class="searchResults" :class="{hidden: isMobile && route.path !== '/browse', main: isMobile}" />
+      <div class="main" v-if="!isMobile || route.path !== '/browse'">
         <router-view class="view" />
       </div>
     </div>
@@ -188,7 +188,7 @@ body {
   transition: background-color 0.2s;
 }
 
-.card.open {
+.card.router-link-active {
   background-color: var(--card-active-color);
 }
 
@@ -196,7 +196,7 @@ body {
   background-color: var(--card-hover-color);
 }
 
-.card.open:hover {
+.card.router-link-active:hover {
   background-color: var(--card-active-hover-color);
   ;
 }

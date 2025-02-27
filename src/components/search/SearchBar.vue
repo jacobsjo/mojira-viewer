@@ -37,7 +37,7 @@ watch(basicSearchData, () => {
 async function search(switchRoute = true) {
     searchResultsStore.search(jql.value)
     router.push({
-        name: isMobile.value && switchRoute ? 'browse' : undefined,
+        name: isMobile.value && switchRoute ? '/browse' : undefined,
         query: {
             jql: jql.value === defaultJql ? undefined : jql.value
         }

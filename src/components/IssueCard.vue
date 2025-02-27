@@ -33,8 +33,7 @@ const flair = computed(() => {
 </script>
 
 <template>
-    <InternalLink :to="`/browse/${props.issue?.key}`" class="card result"
-        :class="{ open: route.params.issue === props.issue?.key }">
+    <InternalLink :to="`/browse/${props.issue?.key}`" class="card result">
         <div class="title"><span class="id">{{ props.issue?.key }}</span>
             <Flair :flair="flair" />
         </div>

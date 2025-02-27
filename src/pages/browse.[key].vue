@@ -2,30 +2,42 @@
 import { defineBasicLoader } from 'unplugin-vue-router/data-loaders/basic'
 import { getComments } from '../api'
 import { IssueFlair } from '../IssueFlair'
-import Flair from './Flair.vue'
-import DetailEntry from './DetailEntry.vue'
+import Flair from '../components/Flair.vue'
+import DetailEntry from '../components/DetailEntry.vue'
 import { computed } from 'vue'
-import AdfDoc from './adf/AdfDoc.vue'
+import AdfDoc from '../components/adf/AdfDoc.vue'
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
-import IssueCard from './IssueCard.vue'
+import IssueCard from '../components/IssueCard.vue'
 import { onUpdated } from 'vue'
 import { useIssueCache } from '../stores/IssueCache'
-import Spinner from './Spinner.vue'
+import Spinner from '../components/Spinner.vue'
 import { onMounted } from 'vue'
 
-// TODO sanitise route.params.issue
+// TODO sanitise route.params.key
 
 
-export const useIssueData = defineBasicLoader('getIssue', async (route) => {
-    const issueCache = useIssueCache()
+export const useIssueData = defineBasicLoader('/browse.[key]', 
+    async (route) => {
+        const issueCache = useIssueCache()
+        const issue = issueCache.getIssue(route.params.key as string)
+        return issue
+    },
+    {
+        lazy: false
+    }
+)
 
-    return issueCache.getIssue(route.params.issue as string)
-})
 
-export const useComments = defineBasicLoader('getComments', async (route, context) => {
-    return await getComments(route.params.issue as string)
-})
+export const useComments = defineBasicLoader('/browse.[key]', 
+    async (route, context) => {
+        return await getComments(route.params.key as string)
+    },
+    {
+        lazy: true
+    }
+)
+
 
 function mapVersionList(versions: any[]) {
     return versions.map(version => version.name.replaceAll('Minecraft ', '').replaceAll('Snapshot ', ''))
@@ -34,7 +46,7 @@ function mapVersionList(versions: any[]) {
 </script>
 
 <script setup lang="ts">
-const route = useRoute()
+const route = useRoute('/browse.[key]')
 const issueCache = useIssueCache()
 
 const {
@@ -43,6 +55,7 @@ const {
     error: errorIssue,
     reload: reloadIssue,
 } = useIssueData()
+
 
 const {
     data: comments,
@@ -65,7 +78,7 @@ const issueLinks = computed(() => {
             if (link.inwardIssue !== undefined) {
                 type.inward.push(link.inwardIssue)
             } else if (link.outwardIssue !== undefined) {
-                if (type.type.inward === type.type.outward){ // symetric links
+                if (type.type.inward === type.type.outward) { // symetric links
                     type.inward.push(link.outwardIssue)
                 } else {
                     type.outward.push(link.outwardIssue)
@@ -76,23 +89,18 @@ const issueLinks = computed(() => {
     return linkTypes
 })
 
+
 watch(
-    () => route.params.issue,
+    () => route.params?.key,
     (issue) => {
-        document.title = `${route.params.issue}`
+        document.title = `${route.params.key}`
         reloadIssue()
         reloadComments()
     }
 )
 
-onMounted(() => {
-    document.title = `${route.params.issue}`
-    reloadIssue()
-    reloadComments()
-})
-
 watch(issue, (issue) => {
-    document.title = `${route.params.issue}: ${issue.fields.summary}`
+    document.title = `${route.params.key}: ${issue.fields.summary}`
 })
 
 onUpdated(() => {
@@ -115,9 +123,11 @@ onUpdated(() => {
         <div v-else id="issue">
             <div class="headline">
                 <div class="key">
-                    {{ route.params.issue }} <Flair :flair="issueFlair" />
+                    {{ route.params.key }}
+                    <Flair :flair="issueFlair" />
                 </div>
-                <a :href="`https://report.bugs.mojang.com/servicedesk/customer/portal/2/${route.params.issue}`" target="_blank">View on Servicedesk</a>
+                <a :href="`https://report.bugs.mojang.com/servicedesk/customer/portal/2/${route.params.key}`"
+                    target="_blank">View on Servicedesk</a>
             </div>
             <h1>{{ issue.fields.summary }}</h1>
 
@@ -134,7 +144,8 @@ onUpdated(() => {
             <DetailEntry title="Area" :values="[issue.fields.customfield_10051?.value]" />
             <DetailEntry title="Created" :values="[new Date(issue.fields.created).toLocaleString()]" />
             <DetailEntry title="Updated" :values="[new Date(issue.fields.updated).toLocaleString()]" />
-            <DetailEntry title="Resolved" :values="[issue.fields.resolutiondate ? new Date(issue.fields.resolutiondate).toLocaleString() : '']" />
+            <DetailEntry title="Resolved"
+                :values="[issue.fields.resolutiondate ? new Date(issue.fields.resolutiondate).toLocaleString() : '']" />
             <DetailEntry title="Votes" :values="[issue.fields.customfield_10070?.toString() ?? '0']" />
             <DetailEntry title="Watchers" :values="[issue.fields.watches?.watchCount.toString() ?? '']" />
             <DetailEntry title="ADO" :values="[issue.fields.customfield_10050]" />
@@ -158,18 +169,20 @@ onUpdated(() => {
 
             <h2>Comments:</h2>
             <div class="comments">
-                <div v-if="isLoadingComments"><Spinner /></div>
+                <div v-if="isLoadingComments">
+                    <Spinner />
+                </div>
                 <div v-else-if="errorComments" class="comment-error">{{ errorComments.message }}</div>
                 <div v-else-if="comments.length === 0">No comments</div>
                 <div class="comment" v-else v-for="comment of comments">
-                    <div class="header"><img class="avatar" :src="comment.author.avatarUrls['16x16']" alt="[user]"/>
+                    <div class="header"><img class="avatar" :src="comment.author.avatarUrls['16x16']" alt="[user]" />
                         {{ comment.author.displayName }}: <span class="time"> {{ new
             Date(comment.created).toLocaleString() }}</span></div>
                     <AdfDoc class="content" :node="comment.body" />
                 </div>
             </div>
         </div>
-   </div>
+    </div>
 </template>
 
 
@@ -213,7 +226,8 @@ h1 {
     text-align: center
 }
 
-h2, h3{
+h2,
+h3 {
     margin: 0.5rem 0 0.3rem 0;
     color: var(--accent2-color);
 }
