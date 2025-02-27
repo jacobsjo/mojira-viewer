@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useSearchResultStore } from '../../stores/SearchResultStore'
-import { useSettingsStore } from '../../stores/SettingsStore'
 import BasicSearch from './BasicSearch.vue';
 import { BasicSearchData, BasicSearchDataField } from '../../BasicSearchData';
 import { watch } from 'vue';
@@ -11,11 +10,14 @@ import { useRoute } from 'vue-router';
 import router from '../../router';
 import InternalLink from '../InternalLink.vue';
 import { useIsMobile } from '../../Mobile';
+import { useDark, useToggle } from '@vueuse/core';
 const defaultJql = 'resolution = Unresolved AND "created" IS NOT EMPTY ORDER BY "created" DESC'
 const route = useRoute()
 
 const searchResultsStore = useSearchResultStore()
-const settingsStore = useSettingsStore()
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 
 const isMobile = useIsMobile()
 
@@ -111,7 +113,7 @@ onMounted(async () => {
                     The current JQL query can't be represented as a basic search
                 </div>
             </div>
-            <button v-if="!isMobile" class="darkmode-switcher" tabindex="0" @click="settingsStore.darkMode = !settingsStore.darkMode"><font-awesome-icon :icon="['fas', settingsStore.darkMode ? 'sun' : 'moon']" /></button>
+            <button v-if="!isMobile" class="darkmode-switcher" tabindex="0" @click="toggleDark()"><font-awesome-icon :icon="['fas', isDark ? 'sun' : 'moon']" /></button>
         </div>
     </div>
 </template>

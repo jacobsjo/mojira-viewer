@@ -9,8 +9,10 @@ import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import MobileNav from "./components/MobileNav.vue";
 import { ref } from "vue";
+import { useDark } from "@vueuse/core";
 
-const settingsStore = useSettingsStore()
+useDark()
+
 const route = useRoute()
 const router = useRouter()
 const isMobile = useIsMobile()
@@ -26,7 +28,7 @@ watch(isMobile, (isMobile) => {
 </script>
 
 <template>
-  <div class="app" :class="{ dark: settingsStore.darkMode }">
+  <div class="app">
     <div class="topbar">
       <MobileNav v-if="isMobile" v-model:show-search="showSearch" />
       <SearchBar :class="{hidden: isMobile && !showSearch}" @search="showSearch = false"/>
@@ -42,7 +44,7 @@ watch(isMobile, (isMobile) => {
 </template>
 
 <style>
-.app {
+html {
   --searchbar-bg-color: rgb(255, 242, 230);
   --main-border-color: rgb(153, 153, 153);
   --results-bg-color: rgb(224, 232, 233);
@@ -71,7 +73,7 @@ watch(isMobile, (isMobile) => {
   color: var(--text-color);
 }
 
-.app.dark {
+html.dark {
   --searchbar-bg-color: rgb(19, 19, 19);
   --main-border-color: rgb(86, 104, 163);
   --results-bg-color: rgb(39, 39, 39);
