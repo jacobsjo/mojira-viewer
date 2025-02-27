@@ -36,7 +36,8 @@ export namespace FieldMetadata {
                 "MCPE",
                 "REALMS",
                 "BDS",
-                "MCL"
+                "MCL",
+                "WEB"
             ]
         },
         status: {

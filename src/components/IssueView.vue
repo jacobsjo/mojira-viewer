@@ -126,8 +126,8 @@ onUpdated(() => {
             <DetailEntry title="Resolution" :values="[issue.fields.resolution?.name ?? 'None']" />
             <DetailEntry title="Confirmation Status" :values="[issue.fields.customfield_10054?.value ?? '']" />
             <DetailEntry title="Mojang Priority" :values="[issue.fields.customfield_10049?.value]" />
-            <DetailEntry title="Affects Version(s)" :values="mapVersionList(issue.fields.versions)" />
-            <DetailEntry title="Fix Version(s)" :values="mapVersionList(issue.fields.fixVersions)" />
+            <DetailEntry title="Affects Version(s)" :values="mapVersionList(issue.fields.versions ?? [])" />
+            <DetailEntry title="Fix Version(s)" :values="mapVersionList(issue.fields.fixVersions ?? [])" />
             <DetailEntry title="Labels" :values="issue.fields.labels" />
             <DetailEntry title="Category"
                 :values="issue.fields.customfield_10055?.map((category: any) => category.value)" />
@@ -135,8 +135,8 @@ onUpdated(() => {
             <DetailEntry title="Created" :values="[new Date(issue.fields.created).toLocaleString()]" />
             <DetailEntry title="Updated" :values="[new Date(issue.fields.updated).toLocaleString()]" />
             <DetailEntry title="Resolved" :values="[issue.fields.resolutiondate ? new Date(issue.fields.resolutiondate).toLocaleString() : '']" />
-            <DetailEntry title="Votes" :values="[issue.fields.customfield_10070?.toString() ?? 'N/A']" />
-            <DetailEntry title="Watchers" :values="[issue.fields.watches?.watchCount.toString() ?? 'N/A']" />
+            <DetailEntry title="Votes" :values="[issue.fields.customfield_10070?.toString() ?? '0']" />
+            <DetailEntry title="Watchers" :values="[issue.fields.watches?.watchCount.toString() ?? '']" />
             <DetailEntry title="ADO" :values="[issue.fields.customfield_10050]" />
 
             <h2>Description:</h2>
