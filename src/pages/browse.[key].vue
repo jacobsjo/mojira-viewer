@@ -18,23 +18,19 @@ import { onMounted } from 'vue'
 
 
 export const useIssueData = defineBasicLoader('/browse.[key]', 
-    async (route) => {
-        const issueCache = useIssueCache()
-        const issue = issueCache.getIssue(route.params.key as string)
-        return issue
-    },
+    (route) => useIssueCache().getIssue(route.params.key as string),
     {
-        lazy: false
+        lazy: true,
+        commit: 'immediate'
     }
 )
 
 
 export const useComments = defineBasicLoader('/browse.[key]', 
-    async (route, context) => {
-        return await getComments(route.params.key as string)
-    },
+    async (route, context) => getComments(route.params.key as string),
     {
-        lazy: true
+        lazy: true,
+        commit: 'immediate'
     }
 )
 

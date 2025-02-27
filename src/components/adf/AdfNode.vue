@@ -63,6 +63,7 @@ import Emoji from './Emoji.vue'
 
     .panel .symbol {
         width: 2.5rem;
+        flex-shrink: 0;
         height: 1rem;
     }
 

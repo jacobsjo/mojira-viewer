@@ -8,7 +8,6 @@ const props = defineProps({
 })
 
 const faIcon = computed(() => {
-    console.log(props.emoji)
     switch (props.emoji){
         case ':info:':
             return 'circle-info'
