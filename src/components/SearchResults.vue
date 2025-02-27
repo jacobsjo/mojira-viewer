@@ -57,6 +57,7 @@ import Spinner from './Spinner.vue';
         min-height: 3.5rem;
         text-align: center;
         line-height: 3.5rem;
+        width: 100%
     }
 
 </style>
