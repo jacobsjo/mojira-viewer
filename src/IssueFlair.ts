@@ -25,7 +25,8 @@ export class IssueFlair {
         AwaitingResponse: new IssueFlair('invalid', 'Awaiting Response'),
         Incomplete: new IssueFlair('invalid', 'Incomplete'),
         CannotReproduce: new IssueFlair('invalid', 'Cannot Reproduce'),
-        Closed: new IssueFlair('invalid', 'Closed')
+        Closed: new IssueFlair('invalid', 'Closed'),
+        Unknown: new IssueFlair('unknown', '')
     } 
 
     public static getIssueFlair(fields: any): IssueFlair {
