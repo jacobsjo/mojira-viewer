@@ -7,6 +7,7 @@ export class IssueFlair {
 
     public static IssueFlairs = {
         Unconfirmed: new IssueFlair('new','Unconfirmed'),
+        Open: new IssueFlair('new','Open'),
         CommunityConsensus: new IssueFlair('confirmed','Community Consensus'),
         Confirmed: new IssueFlair('confirmed', 'Confirmed'),
         Plausible: new IssueFlair('confirmed', 'Plausible'),
@@ -16,6 +17,7 @@ export class IssueFlair {
         PrioVeryImportant: new IssueFlair('mojang-confirmed veryImportant', 'Very Important'),
         InProgress: new IssueFlair('in-progress','In Progress'),
         Fixed: new IssueFlair('fixed', 'Fixed'),
+        Done: new IssueFlair('fixed', 'Done'),
         Duplicate: new IssueFlair('invalid', 'Duplicate'),
         Invalid: new IssueFlair('invalid', 'Invalid'),
         WorksAsIntended: new IssueFlair('invalid', 'Works As Intended'),
@@ -23,7 +25,7 @@ export class IssueFlair {
         AwaitingResponse: new IssueFlair('invalid', 'Awaiting Response'),
         Incomplete: new IssueFlair('invalid', 'Incomplete'),
         CannotReproduce: new IssueFlair('invalid', 'Cannot Reproduce'),
-        Unknown: new IssueFlair('unknown', '')
+        Closed: new IssueFlair('invalid', 'Closed')
     } 
 
     public static getIssueFlair(fields: any): IssueFlair {
@@ -48,12 +50,15 @@ export class IssueFlair {
                 case "Unconfirmed":
                     return IssueFlair.IssueFlairs.Unconfirmed
             }
+            return IssueFlair.IssueFlairs.Open
         } else if (fields.status.name === 'In Progress') {
             return IssueFlair.IssueFlairs.InProgress
         } else {
             switch (fields.resolution?.name) {
                 case 'Fixed':
                     return IssueFlair.IssueFlairs.Fixed
+                case 'Done':
+                    return IssueFlair.IssueFlairs.Done
                 case "Won't Fix":
                     return IssueFlair.IssueFlairs.WontFix
                 case "Works As Intended":
@@ -70,8 +75,8 @@ export class IssueFlair {
                     return IssueFlair.IssueFlairs.CannotReproduce
 
             }
+            return IssueFlair.IssueFlairs.Closed
         }
 
-        return IssueFlair.IssueFlairs.Unknown
     }
 }
