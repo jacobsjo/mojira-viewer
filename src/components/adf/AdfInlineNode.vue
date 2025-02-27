@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import AdfTextNode from './AdfTextNode.vue'
     import AdfInlineCardNode from './AdfInlineCardNode.vue'
+import Emoji from './Emoji.vue';
 
     const props = defineProps({
         node: Object,
@@ -41,7 +42,7 @@
 </script>
 
 <template>
-    <span v-if="props.node?.type === 'emoji'">{{ props.node?.attrs.text }}</span>
+    <Emoji v-if="props.node?.type === 'emoji'" :emoji="props.node?.attrs.text"/>
     <br v-else-if="props.node?.type === 'hardBreak'" />
     <AdfInlineCardNode v-else-if="props.node?.type === 'inlineCard'" :url="props.node?.attrs.url" />
     <span class="mention" v-else-if="props.node?.type === 'mention'">{{props.node?.attrs.text}}</span>

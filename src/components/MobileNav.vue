@@ -1,9 +1,10 @@
 
 <script setup lang="ts">
-import { useSettingsStore } from '../stores/SettingsStore';
+import { useDark, useToggle } from '@vueuse/core';
 import InternalLink from './InternalLink.vue';
 
-const settingsStore = useSettingsStore()
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 
 const showSearch = defineModel('showSearch')
 
@@ -15,7 +16,7 @@ const showSearch = defineModel('showSearch')
         <InternalLink to="/browse" class="button"><font-awesome-icon :icon="['fas', 'bars']" /></InternalLink>
         <button class="button search" :class="{active: showSearch}" tabindex="0" @click="showSearch = !showSearch"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
         <div class="gap" />
-        <button class="button darkmode-switcher" tabindex="0" @click="settingsStore.darkMode = !settingsStore.darkMode"><font-awesome-icon :icon="['fas', settingsStore.darkMode ? 'sun' : 'moon']" /></button>
+        <button class="button darkmode-switcher" tabindex="0" @click="toggleDark()"><font-awesome-icon :icon="['fas', isDark ? 'sun' : 'moon']" /></button>
         <InternalLink to="/" class="button"><font-awesome-icon :icon="['fas', 'house']" /></InternalLink>
     </div>
 </template>

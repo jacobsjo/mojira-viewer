@@ -3,14 +3,15 @@ import { watch } from "vue";
 import Footer from "./components/Footer.vue";
 import SearchBar from "./components/search/SearchBar.vue"
 import SearchResults from "./components/SearchResults.vue"
-import { useSettingsStore } from "./stores/SettingsStore";
 import { useIsMobile } from './Mobile'
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import MobileNav from "./components/MobileNav.vue";
 import { ref } from "vue";
+import { useDark } from "@vueuse/core";
 
-const settingsStore = useSettingsStore()
+useDark()
+
 const route = useRoute()
 const router = useRouter()
 const isMobile = useIsMobile()
@@ -18,34 +19,37 @@ const isMobile = useIsMobile()
 const showSearch = ref(false)
 
 watch(isMobile, (isMobile) => {
-  if (!isMobile && route.name === 'browse'){
-    router.push({ name: 'home', query: route.query})
+  if (!isMobile && route.path === '/browse'){
+    router.push({ path: '/', query: route.query})
   }
 })
 
 </script>
 
 <template>
-  <div class="app" :class="{ dark: settingsStore.darkMode }">
+  <div class="app">
     <div class="topbar">
       <MobileNav v-if="isMobile" v-model:show-search="showSearch" />
       <SearchBar :class="{hidden: isMobile && !showSearch}" @search="showSearch = false"/>
     </div>
-    <div id="main">
-      <SearchResults class="searchResults" :class="{hidden: isMobile && route.name !== 'browse', view: isMobile}" />
-      <router-view v-if="!isMobile || route.name !== 'browse'" class="view" />
+    <div id="searchAndMain">
+      <SearchResults class="searchResults" :class="{hidden: isMobile && route.path !== '/browse', main: isMobile}" />
+      <div class="main" v-if="!isMobile || route.path !== '/browse'">
+        <router-view class="view" />
+      </div>
     </div>
     <Footer v-if="!isMobile" />
   </div>
 </template>
 
 <style>
-.app {
+html {
   --searchbar-bg-color: rgb(255, 242, 230);
   --main-border-color: rgb(153, 153, 153);
   --results-bg-color: rgb(224, 232, 233);
   --footer-bg-color: rgb(255, 242, 230);
   --main-bg-color: rgb(255, 255, 255);
+  --main-off-bg-color: rgb(221, 221, 221);
   --error-bg-color: rgb(255, 94, 94);
   --input-bg-color: white;
   --input-text-color: black;
@@ -68,12 +72,13 @@ watch(isMobile, (isMobile) => {
   color: var(--text-color);
 }
 
-.app.dark {
+html.dark {
   --searchbar-bg-color: rgb(19, 19, 19);
   --main-border-color: rgb(86, 104, 163);
   --results-bg-color: rgb(39, 39, 39);
   --footer-bg-color: rgb(19, 19, 19);
   --main-bg-color: rgb(34, 34, 34);
+  --main-off-bg-color: rgb(17, 17, 17);
   --error-bg-color: rgb(158, 0, 0);
   --input-bg-color: black;
   --input-text-color: white;
@@ -116,7 +121,7 @@ watch(isMobile, (isMobile) => {
   flex-direction: column;
 }
 
-#main {
+#searchAndMain {
   flex-grow: 1;
   height: 0;
   display: flex;
@@ -144,11 +149,22 @@ body {
   border-right: 1px solid var(--main-border-color);
 }
 
-.view {
+.main {
   flex-grow: 1;
   width: 0;
-  padding: 1rem;
+  background-color: var(--main-off-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.view {
+  width: 95rem;
+  max-width: 100%;
   background-color: var(--main-bg-color);
+  padding: 1rem;
+  height: 100%;
+  box-sizing: border-box
 }
 
 .search-input {
@@ -173,7 +189,7 @@ body {
   transition: background-color 0.2s;
 }
 
-.card.open {
+.card.router-link-active {
   background-color: var(--card-active-color);
 }
 
@@ -181,7 +197,7 @@ body {
   background-color: var(--card-hover-color);
 }
 
-.card.open:hover {
+.card.router-link-active:hover {
   background-color: var(--card-active-hover-color);
   ;
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import InternalLink from './InternalLink.vue';
+import InternalLink from '../components/InternalLink.vue';
 
 const goTo = ref("");
 

@@ -12,7 +12,6 @@ export type BasicSearchData = {
 
 export namespace BasicSearchData {
     export function toJql(data: BasicSearchData): string {
-        console.log('toJql')
         if (data === null) return ""
         var jql = [data.project, data.text, ...data.search].map(s => s.toJql()).filter(j => j !== null).join(" AND ")
         if (data.sort !== null) {
@@ -24,7 +23,6 @@ export namespace BasicSearchData {
     }
 
     export function tryParseJql(jql: string): BasicSearchData | undefined {
-        console.log('tryParesJql')
         const jqlParts = jql.split(' AND ')
 
         const newData: BasicSearchData = {

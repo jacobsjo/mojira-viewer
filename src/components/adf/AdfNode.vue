@@ -4,6 +4,7 @@
     import AdfInlineNode from './AdfInlineNode.vue'
     import AdfListItemNodes from './AdfListItemNodes.vue'
     import AdfTableRows from './AdfTableRows.vue'
+import Emoji from './Emoji.vue'
 
     const props = defineProps({
         node: Object,
@@ -25,7 +26,7 @@
     <h6 v-else-if="props.node?.type === 'heading' && props.node?.attrs.level === 6"><AdfInlineNodeList :nodes="props.node?.content" /></h6>
     <div class="media" v-else-if="props.node?.type === 'mediaGroup'">[{{ props.node?.content.length }} media element{{ props.node?.content.length !== 1 ? "s" : "" }}]</div>
     <div class="media" v-else-if="props.node?.type === 'mediaSingle'">[1 media element]</div>
-    <div class="panel" v-else-if="props.node?.type === 'panel'" :class="props.node?.attrs.panelType"><AdfNodeList :nodes="props.node?.content" /></div>
+    <div class="panel" v-else-if="props.node?.type === 'panel'" :class="props.node?.attrs.panelType"><Emoji class="symbol" :emoji="`:${props.node?.attrs.panelType}:`" /><div class="panel-content"><AdfNodeList :nodes="props.node?.content" /></div></div>
     <p v-else-if="props.node?.type === 'paragraph'"><AdfInlineNodeList :nodes="props.node?.content" /></p>
     <hr v-else-if="props.node?.type === 'rule'" />
     <table v-else-if="props.node?.type === 'table'"><AdfTableRows :nodes="props.node?.content" /></table>
@@ -48,6 +49,22 @@
         padding: 0.8rem 0.4rem;
         background-color: var(--code-bg-color);
         border: 1px solid var(--code-border-color);
+    }
+
+    /* test this in MC-280291 */
+    .panel {
+        border: 1px solid var(--main-border-color);
+        padding: 0 0.3rem;
+        margin: 0.5rem 0;
+        border-radius: 0.8rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .panel .symbol {
+        width: 2.5rem;
+        flex-shrink: 0;
+        height: 1rem;
     }
 
 </style>
