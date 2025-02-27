@@ -3,7 +3,6 @@ import { watch } from "vue";
 import Footer from "./components/Footer.vue";
 import SearchBar from "./components/search/SearchBar.vue"
 import SearchResults from "./components/SearchResults.vue"
-import { useSettingsStore } from "./stores/SettingsStore";
 import { useIsMobile } from './Mobile'
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
