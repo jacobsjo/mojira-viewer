@@ -12,27 +12,29 @@ const goTo = ref("");
         <div id="home">
             <h1>Unofficial Mojira Viewer</h1>
             <div class="boxes">
-                <div class="box">
-                    <p>This main-page is still WIP. It will eventually include:</p>
-                    <ul>
-                        <li>list of saved searched</li>
-                        <li>list of favorited issues</li>
-                    </ul>
-                    <p>For now, you can search for issues using the search bar above. You might want to restrict the search to a specific <b>project</b>, such as Java Edition.</p>
+                <div class="combiner long">
+                    <div class="box input">
+                        <input class="search-input" placeholder="Enter issue ID or URL" v-model="goTo"><InternalLink class="search" :to="`/browse/${goTo}`">Go</InternalLink>
+                    </div>
+                    <div class="box">
+                        <h2>Usefull Searches</h2>
+                        <UsefullSearches />
+                    </div>
+                </div>
+                <div class="box long">
+                    <h2>Saved Issues</h2>
+                </div>
+                <div class="box long">
+                    <h2>Saved Searches</h2>
                 </div>
                 <div class="box">
-                    <input class="search-input" placeholder="Enter issue ID or URL" v-model="goTo"><InternalLink class="search" :to="`/browse/${goTo}`">Go</InternalLink>
-                </div>
-                <div class="box">
-                    <UsefullSearches />
-                </div>
-                <div class="box">
+                    <p>To search for issues, use the search bar above. You might want to restrict the search to a specific <b>project</b>, such as <b>Java</b> Edition.</p>
                     <p>To report new issues, go to <a href="https://report.bugs.mojang.com/servicedesk">https://report.bugs.mojang.com/servicedesk</a>.
                     Note that only <b>bugs</b> are accepted on the issue tracker, so please <b>don't report feature requests or help requests</b>.</p>
-                </div>
-                <div class="box">
                     <InternalLink to="/about/">About</InternalLink>
                 </div>
+            </div>
+            <div>
             </div>
 
         </div>
@@ -51,8 +53,12 @@ const goTo = ref("");
     }
 
     #home {
-        max-width: 50rem;
-        padding: 2rem;
+        width: 100%;
+        padding: 1rem;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     h1 {
@@ -61,19 +67,49 @@ const goTo = ref("");
         margin-bottom: 2rem;
     }
 
+    h2 {
+        margin: 0;
+        margin-bottom: 1rem;
+        font-size: 14pt;
+    }
+
     .boxes {
-        display: grid;
-        grid-template-columns: 20rem 20rem;
+        display: flex;
+        max-width: 70rem;
+        width: 100%;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .boxes >* {
+        width: 17rem;
+        flex-grow: 1;
+    }
+
+    .combiner {
+        display: flex;
+        flex-direction: column;
         gap: 1rem;
     }
 
     .box {
-        width: 100%;
         box-sizing: border-box;
-        padding: 1rem;
-        border: 1px solid var(--main-border-color);
-        border-radius: 1rem;
+        padding: 0.7rem;
+        background-color: var(--box-bg-color);
+    }
 
+    .input {
+        min-height: 0;
+        height: fit-content;
+    }
+
+    .wide {
+        grid-column: span 2;
+    }
+
+    .long {
+        grid-row: span 2;
     }
 
 </style>

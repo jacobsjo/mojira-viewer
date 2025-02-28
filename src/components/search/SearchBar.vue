@@ -11,7 +11,7 @@ import router from '../../router';
 import InternalLink from '../InternalLink.vue';
 import { useIsMobile } from '../../Mobile';
 import { useDark, useToggle } from '@vueuse/core';
-const defaultJql = 'resolution = Unresolved AND "created" IS NOT EMPTY ORDER BY "created" DESC'
+const defaultJql = 'resolution = Unresolved ORDER BY "created" DESC'
 const route = useRoute()
 
 const searchResultsStore = useSearchResultStore()

@@ -50,6 +50,7 @@ html {
   --footer-bg-color: rgb(255, 242, 230);
   --main-bg-color: rgb(255, 255, 255);
   --main-off-bg-color: rgb(221, 221, 221);
+  --box-bg-color: rgb(207, 207, 218);
   --error-bg-color: rgb(255, 94, 94);
   --input-bg-color: white;
   --input-text-color: black;
@@ -79,6 +80,7 @@ html.dark {
   --footer-bg-color: rgb(19, 19, 19);
   --main-bg-color: rgb(34, 34, 34);
   --main-off-bg-color: rgb(17, 17, 17);
+  --box-bg-color: rgb(56, 56, 63);
   --error-bg-color: rgb(158, 0, 0);
   --input-bg-color: black;
   --input-text-color: white;

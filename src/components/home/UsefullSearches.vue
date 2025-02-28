@@ -17,10 +17,9 @@ const project = useStorage('project', [])
 
 <template>
     <div class="button-list">
-        <h2>Usefull Searches</h2>
         <v-select :placeholder="$t(`search.project.placeholder`,$t(`field.project.label`)+': Any')" multiple :options="FieldMetadata.Select['project'].options"
-            v-model="project" />
-        <SearchLink :project="project" jql="fixVersion = earliestUnreleasedVersion() ORDER BY created DESC">Fixed bugs in next release</SearchLink>
+            v-model="project" :reduce="(s: any) => s.key" />
+        <SearchLink :project="project" jql="fixVersion >= earliestUnreleasedVersion() ORDER BY created DESC">Fixed bugs in next release</SearchLink>
         <SearchLink :project="project" :jql="latestVersionJql">Bugs affecting latest version</SearchLink>
         <SearchLink :project="project" jql="cf[10054] != Unconfirmed AND resolution = Unresolved ORDER BY created DESC">Newest confirmed bugs</SearchLink>
         <SearchLink :project="project" jql="cf[10054] = Unconfirmed AND resolution = Unresolved ORDER BY created ASC">Oldest unconfirmed bugs</SearchLink>
@@ -33,9 +32,6 @@ const project = useStorage('project', [])
 </template>
 
 <style scoped>
-    h2 {
-        margin: 0;
-    }
     .button-list {
         display: flex;
         flex-direction: column;
