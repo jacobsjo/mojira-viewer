@@ -6,25 +6,32 @@ import { onBeforeMount } from 'vue';
 import { computed } from 'vue';
 import { useIssueCache } from '../stores/IssueCache';
 import InternalLink from './InternalLink.vue';
+import IssueSaveButton from './IssueSaveButton.vue';
 
 const route = useRoute()
 const issueCache = useIssueCache()
 
 const props = defineProps({
-    issue: Object,
+    issue_key: String,
+    description: String
 })
 
 onBeforeMount(() => {
-    if (props.issue && props.issue.fields.customfield_10049 === undefined){
-        issueCache.registerInterest(props.issue.key)
+    if (props.issue_key && !issueCache.cache.has(props.issue_key)){
+        issueCache.registerInterest(props.issue_key)
     }
 })
 
+const issue = computed(() => {
+    if (props.issue_key ) {
+        return issueCache.cache.get(props.issue_key)
+    }
+    return undefined
+})
+
 const flair = computed(() => {
-    if (props.issue?.fields.customfield_10049 !== undefined){
-        return IssueFlair.getIssueFlair(props.issue?.fields) 
-    } else if (issueCache.cache.has(props.issue?.key)) {
-        return IssueFlair.getIssueFlair(issueCache.cache.get(props.issue?.key)?.issue.fields) 
+    if (issue.value !== undefined) {
+        return IssueFlair.getIssueFlair(issue.value.issue.fields) 
     } else {
         return IssueFlair.IssueFlairs.Unknown
     }
@@ -33,11 +40,13 @@ const flair = computed(() => {
 </script>
 
 <template>
-    <InternalLink :to="`/browse/${props.issue?.key}`" class="card result">
-        <div class="title"><span class="id">{{ props.issue?.key }}</span>
+    <InternalLink :to="`/browse/${props.issue_key}`" class="card result">
+        <div class="title"><span class="id">{{ props.issue_key }}</span>
             <Flair :flair="flair" />
+            <div class="gap" />
+            <IssueSaveButton :issue_key="props.issue_key" />
         </div>
-        <div class="summary">{{ props.issue?.fields?.summary }}</div>
+        <div class="summary">{{ issue?.issue.fields?.summary ?? props.description }}</div>
     </InternalLink>
 </template>
 
@@ -54,6 +63,10 @@ const flair = computed(() => {
 .title {
     display: flex;
     gap: 0.5rem
+}
+
+.gap {
+    flex-grow: 1;
 }
 
 .id {

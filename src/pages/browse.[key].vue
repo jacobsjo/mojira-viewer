@@ -13,6 +13,7 @@ import { onUpdated } from 'vue'
 import { useIssueCache } from '../stores/IssueCache'
 import Spinner from '../components/Spinner.vue'
 import { onMounted } from 'vue'
+import IssueSaveButton from '../components/IssueSaveButton.vue'
 
 // TODO sanitise route.params.key
 
@@ -121,6 +122,7 @@ onUpdated(() => {
                 <div class="key">
                     {{ route.params.key }}
                     <Flair :flair="issueFlair" />
+                    <IssueSaveButton :issue_key="route.params.key" />
                 </div>
                 <a :href="`https://report.bugs.mojang.com/servicedesk/customer/portal/2/${route.params.key}`"
                     target="_blank">View on Servicedesk</a>
@@ -154,11 +156,11 @@ onUpdated(() => {
                 <div class="linkType" v-for="linkType of issueLinks.values()">
                     <div class="inward" v-if="linkType.inward.length > 0">
                         <h3>{{ linkType.type.inward }}</h3>
-                        <IssueCard v-for="linked of linkType.inward" :issue="linked" />
+                        <IssueCard v-for="linked of linkType.inward" :issue_key="linked.key" :description="linked.fields?.summary" />
                     </div>
                     <div class="outward" v-if="linkType.outward.length > 0">
                         <h3>{{ linkType.type.outward }}</h3>
-                        <IssueCard v-for="linked of linkType.outward" :issue="linked" />
+                        <IssueCard v-for="linked of linkType.outward" :issue_key="linked.key" :description="linked.fields?.summary"/>
                     </div>
                 </div>
             </div>
@@ -212,6 +214,8 @@ onUpdated(() => {
     flex-grow: 1;
     font-size: 1.5rem;
     color: var(--key-color);
+    display: flex;
+    gap: 0.5rem
 }
 
 .headline a {

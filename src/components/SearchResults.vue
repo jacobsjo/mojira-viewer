@@ -14,7 +14,7 @@ import Spinner from './Spinner.vue';
 
 <template>
     <div id="results">
-        <IssueCard v-for="issue of searchResultsStore.searchResults" :issue="issue" />
+        <IssueCard v-for="issue of searchResultsStore.searchResults" :issue_key="issue.key" />
         <div class="error" v-if="searchResultsStore.error !== ''">{{ searchResultsStore.error }}</div>
         <div class="spinner-container"><Spinner v-if="searchResultsStore.isLoading" /></div>
         <div class="card more" v-if="!searchResultsStore.hasAll" @click="loadMore" @keypress:enter="loadMore" tabindex="0">

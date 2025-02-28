@@ -9,9 +9,10 @@ import 'vue-select/dist/vue-select.css';
 import messages from '@intlify/unplugin-vue-i18n/messages'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faSun, faMoon, faSpinner, faHouse, faBars, faMagnifyingGlass, faExclamationTriangle, faCircleInfo, faNoteSticky, faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
+import { faSun, faMoon, faSpinner, faHouse, faBars, faMagnifyingGlass, faExclamationTriangle, faCircleInfo, faNoteSticky, faCircleCheck, faCircleXmark, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons'
 
-library.add(faSun, faMoon, faSpinner, faHouse, faBars, faMagnifyingGlass, faExclamationTriangle, faCircleInfo, faNoteSticky, faCircleCheck, faCircleXmark)
+library.add(faSun, faMoon, faSpinner, faHouse, faBars, faMagnifyingGlass, faExclamationTriangle, faCircleInfo, faNoteSticky, faCircleCheck, faCircleXmark, faStar, faStarRegular)
 
 const pinia = createPinia()
 

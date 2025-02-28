@@ -10,6 +10,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@intlify/unplugin-vue-i18n": "^6.0.3",
     "@vueuse/core": "^12.7.0",
