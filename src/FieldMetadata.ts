@@ -29,15 +29,15 @@ export namespace FieldMetadata {
         "watchers",
     ]
 
-    export const Select: {[key: string]: {options: string[], any?: boolean}} = {
+    export const Select: {[key: string]: {options: (string | {key: string, label: string})[], any?: boolean}} = {
         project: {
             options: [
-                "MC",
-                "MCPE",
-                "REALMS",
-                "BDS",
-                "MCL",
-                "WEB"
+                {key: "MC", label: "Java"},
+                {key: "MCPE", label: "Bedrock"},
+                {key: "REALMS", label: "Realms"},
+                {key: "BDS", label: "Bedrock Dedicated Server"},
+                {key: "MCL", label: "Minecraft Launcher"},
+                {key: "WEB", label: "Mojang Web Services"}
             ]
         },
         status: {
