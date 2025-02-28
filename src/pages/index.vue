@@ -15,7 +15,7 @@ import InternalLink from '../components/InternalLink.vue';
                 <li>list of usefull searched</li>
                 <li>list of favorited issues</li>
             </ul>
-            <p>For now, you can search for issues using the search bar above. You might want to restrict the search to a specific <b>poject</b>, such as Java Edition.</p>
+            <p>For now, you can search for issues using the search bar above. You might want to restrict the search to a specific <b>project</b>, such as Java Edition.</p>
             <p>To report new issues, go to <a href="https://report.bugs.mojang.com/servicedesk">https://report.bugs.mojang.com/servicedesk</a>.
                Note that only <b>bugs</b> are accepted on the issue tracker, so please <b>don't report feature requests or help requests</b>.</p>
 

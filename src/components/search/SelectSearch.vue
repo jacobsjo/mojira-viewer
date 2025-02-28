@@ -9,12 +9,12 @@ const meta = FieldMetadata.Select[query.value.field]
 
 <template>
     <v-select :placeholder="$t(`search.${query.field}.placeholder`,$t(`field.${query.field}.label`)+': Any')" multiple :options="meta.options" :taggable="meta.any ?? false"
-        v-model="query.selected" />
+        v-model="query.selected" :reduce="(s: any) => (typeof s === 'string') ? s : s.key" />
 </template>
 
 <style scoped>
 .v-select {
-    min-width: 10rem;
+    min-width: 12rem;
     max-width: 20rem;
 }
 </style>
