@@ -1,20 +1,22 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { search as searchApi } from '../api'
 import { useIssueCache } from './IssueCache'
+import { useRoute } from 'vue-router';
 
 export const useSearchResultStore = defineStore('searchResult', () => {
+    const route = useRoute()
+    
     const issueCache = useIssueCache()
     const searchResults = ref<any[]>([])
     const total = ref(0)
     const isLoading = ref(false)
     const error = ref<string>("")
+    
+    watch(() => route.query.jql, search)
 
-    var jql: string = ''
-
-    async function search(_jql: string){
-        jql = _jql
-
+    async function search(){
+        console.log(route.query)
         searchResults.value = []
         total.value = 0
 
@@ -24,7 +26,7 @@ export const useSearchResultStore = defineStore('searchResult', () => {
     async function searchMore(){
         isLoading.value = true
         try {
-            const response = await searchApi(jql, searchResults.value.length)
+            const response = await searchApi(route.query.jql as string ?? '', searchResults.value.length)
             if (response.statusCode && response.statusCode >= 400){
                 error.value = "Invalid search query"
             } else {
@@ -45,5 +47,5 @@ export const useSearchResultStore = defineStore('searchResult', () => {
 
     const hasAll = computed(() => searchResults.value.length >= total.value)
 
-    return { searchResults, isLoading, error, search, searchMore, hasAll }
+    return {searchResults, isLoading, error, searchMore, hasAll }
 })

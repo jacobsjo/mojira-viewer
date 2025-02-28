@@ -36,16 +36,13 @@ watch(basicSearchData, () => {
     jql.value = BasicSearchData.toJql(basicSearchData)
 })
 
-async function search(switchRoute = true) {
-    searchResultsStore.search(jql.value)
-    if (switchRoute){
-        router.push({
-            name: isMobile.value ? '/browse' : undefined,
-            query: {
-                jql: jql.value === defaultJql ? undefined : jql.value
-            }
-        })
-    }
+async function search() {
+    router.push({
+        name: isMobile.value ? '/browse' : undefined,
+        query: {
+            jql: jql.value
+        }
+    })
     emit('search')
 }
 
@@ -85,7 +82,6 @@ watch(() => route.query.jql, (queryJql) => {
         console.log("query update")
         jql.value = queryJql as string
         useJql.value = !updateBasicSearch()
-        search(false)
     }
 })
 
@@ -93,7 +89,6 @@ onMounted(async () => {
     await router.isReady()
     if (route.query.jql === undefined) {
         useJql.value = !updateBasicSearch()
-        search(false)
     }
 })
 
@@ -186,24 +181,9 @@ button {
 }
 
 button.search {
-    background-color: rgb(26, 34, 104);
     width: 5rem;
     min-width: 5rem;
-    color: white;
-    height: 1.7rem;
-    border-radius: 0.3rem;
-    font-weight: bolder;
-    border: 1px solid rgb(212, 212, 212);
 }
-
-button.search:hover {
-    background-color: rgb(48, 58, 145);
-}
-
-button.search:active {
-    background-color: rgb(97, 106, 184);
-}
-
 
 button.jql-switcher {
     color: var(--link-color);

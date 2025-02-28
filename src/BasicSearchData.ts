@@ -17,13 +17,13 @@ export namespace BasicSearchData {
         if (data.sort !== null) {
             if (jql !== "")
                 jql += " AND "
-            jql += `${encodeString(data.sort)} IS NOT EMPTY ORDER BY ${encodeString(data.sort)} ${data.sortAsc ? "ASC" : "DESC"}`
+            jql += `ORDER BY ${encodeString(data.sort)} ${data.sortAsc ? "ASC" : "DESC"}`
         }
         return jql
     }
 
     export function tryParseJql(jql: string): BasicSearchData | undefined {
-        const jqlParts = jql.split(' AND ')
+        const [ search, order ] = jql.split(/[oO][rR][dD][eE][rR] [bB][yY] /)
 
         const newData: BasicSearchData = {
             project: new BasicSearchDataField.Select("project", []),
@@ -34,20 +34,26 @@ export namespace BasicSearchData {
         }
 
         // try parse sort option
-        const lastPart = jqlParts[jqlParts.length - 1].trim()
-        const matchSearch = lastPart.match(/^(.+) [iI][sS] [nN][oO][tT] [eE][mM][pP][tT][yY] [oO][rR][dD][eE][rR] [bB][yY] (.+?)( [aA][sS][cC]| [dD][eE][sS][cC])?$/)
-        if (matchSearch && matchSearch[1] === matchSearch[2]) {
-            newData.sort = parseString(matchSearch[1])
-            newData.sortAsc = matchSearch[3].toUpperCase() !== " DESC"
-            jqlParts.pop()
+        if (order !== undefined){
+            const matchSearch = order.match(/^([^,]+?)( [aA][sS][cC]| [dD][eE][sS][cC])?$/)
+            if (matchSearch) {
+                newData.sort = parseString(matchSearch[1])
+                newData.sortAsc = matchSearch[2].toUpperCase() !== " DESC"
+            }
         }
+
+        // no or in search
+        if (search.match(/ [oO][rR] /))
+            return undefined
+
+        const searchParts = search.split(/ [aA][nN][dD] /)
 
         var hasProject = false
         var hasText = false
 
-        for (const jqlPart of jqlParts) {
-            if (jqlPart === "") continue
-            const partData = BasicSearchDataField.tryParseJqlPart(jqlPart)
+        for (const searchPart of searchParts) {
+            if (searchPart === "") continue
+            const partData = BasicSearchDataField.tryParseJqlPart(searchPart)
             if (partData === undefined) {
                 console.warn("unparsable")
                 return undefined
@@ -80,7 +86,7 @@ export abstract class BasicSearchDataField {
         this.key = BasicSearchDataField.lastKey++;
     }
 
-    public abstract toJql(): string | null
+    public abstract toJql(): string | undefined
     public static tryParseJqlPart(jql: string){
         return this.Select.tryParseJqlPart(jql)
             ?? this.Comparison.tryParseJqlPart(jql)
@@ -97,9 +103,9 @@ export namespace BasicSearchDataField {
             super(field)
         }
 
-        public toJql(): string | null {
+        public toJql(): string | undefined {
             if (this.selected.length === 0){
-                return null
+                return undefined
             } else if (this.selected.length === 1){
                 return `${encodeString(this.field)} = ${encodeString(this.selected[0])}`
             } else {
@@ -129,9 +135,9 @@ export namespace BasicSearchDataField {
             super(field)
         }
 
-        public toJql(): string | null {
+        public toJql(): string | undefined {
             if (this.value === null || this.value === ""){
-                return null
+                return undefined
             } else {
                 return `"${this.field}" ${this.comparator} ${encodeString(this.value)}`
             }
@@ -154,9 +160,9 @@ export namespace BasicSearchDataField {
             super(field)
         }
 
-        public toJql(): string | null {
+        public toJql(): string | undefined {
             if (this.value === ""){
-                return null
+                return undefined
             } else {
                 return `"${this.field}" ~ "${this.value}"`
             }

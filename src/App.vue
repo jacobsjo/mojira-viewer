@@ -202,6 +202,24 @@ body {
   ;
 }
 
+
+button.search {
+    background-color: rgb(26, 34, 104);
+    color: white;
+    height: 1.7rem;
+    border-radius: 0.3rem;
+    font-weight: bolder;
+    border: 1px solid rgb(212, 212, 212);
+}
+
+button.search:hover {
+    background-color: rgb(48, 58, 145);
+}
+
+button.search:active {
+    background-color: rgb(97, 106, 184);
+}
+
 .v-select .vs__selected-options {
   flex-wrap: nowrap;
   overflow-x: hidden;
