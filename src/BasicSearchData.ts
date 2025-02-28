@@ -13,11 +13,9 @@ export type BasicSearchData = {
 export namespace BasicSearchData {
     export function toJql(data: BasicSearchData): string {
         if (data === null) return ""
-        var jql = [data.project, data.text, ...data.search].map(s => s.toJql()).filter(j => j !== null).join(" AND ")
+        var jql = [data.project, data.text, ...data.search].map(s => s.toJql()).filter(j => j !== undefined).join(" AND ")
         if (data.sort !== null) {
-            if (jql !== "")
-                jql += " AND "
-            jql += `ORDER BY ${encodeString(data.sort)} ${data.sortAsc ? "ASC" : "DESC"}`
+            jql += ` ORDER BY ${encodeString(data.sort)} ${data.sortAsc ? "ASC" : "DESC"}`
         }
         return jql
     }
@@ -144,7 +142,7 @@ export namespace BasicSearchDataField {
         }
 
         public static tryParseJqlPart(jql: string){
-            const match = jql.match(/^([^<=>]*)(<=|<|=|>|>=)(.*)$/)
+            const match = jql.match(/^([^<=>]*)(<=|<|=|>|>=)([^<=>]*)$/)
             if (match && Object.keys(FieldMetadata.Compare).includes(parseString(match[1]))) {
                 return new Comparison(parseString(match[1]), match[2], parseString(match[3]))
             }
