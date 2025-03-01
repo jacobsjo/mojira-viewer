@@ -43,14 +43,14 @@ function remove(){
     <font-awesome-icon :icon="[saved ? 'fas' : 'far', 'star']" tabindex="0" @click.stop.prevent="openModal" @keypress.enter.stop.prevent="openModal"/>
     <dialog tabindex="-1" ref="save-search" @click.stop.prevent="dialog?.close()" @keypress.enter.stop.prevent="dialog?.close()" @dragstart.stop.prevent="">
         <Remove class="close" tabindex="0" />
-        <div class="dialog" @click.stop.prevent="">
+        <div class="dialog" @click.stop.prevent="" @keypress.enter.stop.prevent="">
             <h1>{{saved ? 'Update saved search' : 'Save search'}}</h1>
-            <input class="search-input" v-model="name" placeholder="Enter name" />
-            <button class="button" @click="save">
+            <input autofocus class="search-input" v-model="name" placeholder="Enter name" @keypress.enter="save" />
+            <button type="submit" class="button" @click="save" @keypress.enter="save">
                 <font-awesome-icon :icon="saved ? ['fas', 'pen'] : ['far', 'star']" />
                 {{saved ? 'Rename' : 'Save'}}
             </button>
-            <button v-if="saved" class="button" @click="remove">
+            <button v-if="saved" class="button" @click="remove" @keypress.enter="remove">
                 <font-awesome-icon :icon="['fas', 'trash']" />
                 Delete
             </button>
