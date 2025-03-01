@@ -2,7 +2,7 @@ import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 
 export const useSavedIssuesStore = defineStore('savedIssues', () => {
-    const savedIssues = useStorage<Set<string>>('saved-issues', new Set<string>())
+    const savedIssues = useStorage<string[]>('saved-issues', [])
 
     return { savedIssues }
 })

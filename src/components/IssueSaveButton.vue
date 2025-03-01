@@ -9,20 +9,21 @@ const props = defineProps({
     issue_key: String
 })
 
-const isSaved = computed(() => props.issue_key && savedIssues.savedIssues.has(props.issue_key))
+const isSaved = computed(() => props.issue_key && savedIssues.savedIssues.includes(props.issue_key))
 
 function toggle() {
     if (props.issue_key === undefined) return
-    if (savedIssues.savedIssues.has(props.issue_key)){
-        savedIssues.savedIssues.delete(props.issue_key)
+    const index = savedIssues.savedIssues.indexOf(props.issue_key)
+    if (index !== -1){
+        savedIssues.savedIssues.splice(index, 1)
     } else {
-        savedIssues.savedIssues.add(props.issue_key)
+        savedIssues.savedIssues.push(props.issue_key)
     }
 }
 </script>
 
 <template>
-    <font-awesome-icon class="star" v-if="props.issue_key" @click.stop.prevent="toggle" :icon="[isSaved ? 'fas' : 'far', 'star']" :title="isSaved ? 'Unsave issue' : 'Save issue'" />
+    <font-awesome-icon class="star" v-if="props.issue_key" @click.stop.prevent="toggle" @keypress.enter.stop.prevent="toggle" :icon="[isSaved ? 'fas' : 'far', 'star']" :title="isSaved ? 'Unsave issue' : 'Save issue'"/>
 </template>
 
 <style scoped>

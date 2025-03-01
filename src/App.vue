@@ -69,6 +69,8 @@ html {
   --code-border-color: gray;
   --text-color: black;
   --minor-text-color: rgb(71, 71, 71);
+  --button-color: rgb(90, 175, 209);
+  --button-hover-color: rgb(132, 195, 219);
 
   --vs-controls-color: var(--accent-color) !important;
 
@@ -100,6 +102,8 @@ html.dark {
   --code-border-color: rgb(122, 122, 122);
   --text-color: rgb(230, 230, 230);
   --minor-text-color: rgb(161, 161, 161);
+  --button-color: rgb(20, 96, 126);
+  --button-hover-color: rgb(25, 124, 163);;
 
 
   --vs-colors--lightest: white !important;

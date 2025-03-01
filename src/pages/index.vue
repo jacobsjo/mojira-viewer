@@ -25,6 +25,7 @@ const goTo = ref("");
                 </div>
                 <div class="box">
                     <h2>Saved Searches</h2>
+                    <p class="center">&mdash; TODO &mdash;</p>
                 </div>
                 <div class="box">
                     <h2>Usefull Searches</h2>
@@ -146,5 +147,9 @@ h2 {
     height: 1rem;
     max-height: 1rem;
     color: var(--minor-text-color);
+}
+
+.center {
+    text-align: center;
 }
 </style>

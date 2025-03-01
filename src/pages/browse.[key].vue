@@ -122,7 +122,7 @@ onUpdated(() => {
                 <div class="key">
                     {{ route.params.key }}
                     <Flair :flair="issueFlair" />
-                    <IssueSaveButton :issue_key="route.params.key" />
+                    <IssueSaveButton :issue_key="route.params.key" tabindex="0" />
                 </div>
                 <a :href="`https://report.bugs.mojang.com/servicedesk/customer/portal/2/${route.params.key}`"
                     target="_blank">View on Servicedesk</a>
