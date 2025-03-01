@@ -18,7 +18,7 @@ const project = useStorage('project', [])
             v-model="project" :reduce="(s: any) => s.key" />
         <SearchLink :project="project" jql="fixVersion >= earliestUnreleasedVersion() ORDER BY created DESC">Fixed bugs in next release</SearchLink>
         <SearchLink :project="project" :jql="latestVersionJql">Bugs affecting latest version</SearchLink>
-        <SearchLink :project="project" jql="cf[10054] != Unconfirmed AND resolution = Unresolved ORDER BY created DESC">Newest confirmed bugs</SearchLink>
+        <SearchLink :project="project" jql='cf[10054] IN (Confirmed, "Community Consensus", Plausible) AND resolution = Unresolved ORDER BY created DESC'>Newest confirmed bugs</SearchLink>
         <SearchLink :project="project" jql="cf[10054] = Unconfirmed AND resolution = Unresolved ORDER BY created ASC">Oldest unconfirmed bugs</SearchLink>
         <SearchLink :project="project" jql="ORDER BY updated DESC">Recently updated bugs</SearchLink>
         <SearchLink :project="project" :jql="recentlyFixedJql">Recent resolutions by Mojang</SearchLink>
