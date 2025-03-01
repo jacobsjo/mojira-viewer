@@ -11,7 +11,6 @@ import router from '../../router';
 import InternalLink from '../InternalLink.vue';
 import { useIsMobile } from '../../Mobile';
 import { useDark, useToggle } from '@vueuse/core';
-const defaultJql = 'resolution = Unresolved ORDER BY "created" DESC'
 const route = useRoute()
 
 const searchResultsStore = useSearchResultStore()
@@ -23,7 +22,7 @@ const isMobile = useIsMobile()
 
 const emit = defineEmits(['search'])
 
-const jql = ref(defaultJql);
+const jql = ref(searchResultsStore.defaultJql);
 const basicSearchData = reactive<BasicSearchData>({
     project: new BasicSearchDataField.Select('project', []),
     text: new BasicSearchDataField.Fuzzy('text', ''),
@@ -43,6 +42,7 @@ async function search() {
             jql: jql.value
         }
     })
+    searchResultsStore.search(jql.value)
     emit('search')
 }
 

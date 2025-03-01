@@ -27,7 +27,7 @@ const project = useStorage('project', [])
         <SearchLink :project="project" :jql="recentlyFixedJql">Recent resolutions by Mojang</SearchLink>
         <SearchLink :project="project" jql="resolution = Unresolved ORDER BY cf[10049] ASC">Highest priority bugs</SearchLink>
         <SearchLink :project="project" jql="resolution = Unresolved ORDER BY cf[10070] DESC">Highest voted bugs</SearchLink>
-        <SearchLink :project="project" jql="status = 'In Progress' OR assignee IS NOT EMPTY AND resolution = Unresolved">Assigned or in progress bugs</SearchLink>
+        <SearchLink :project="project" jql="(status = 'In Progress' OR assignee IS NOT EMPTY) AND resolution = Unresolved">Assigned or in progress bugs</SearchLink>
     </div>
 </template>
 

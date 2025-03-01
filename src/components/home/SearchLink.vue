@@ -3,8 +3,10 @@
 import router from '../../router'
 import { useIsMobile } from '../../Mobile';
 import { computed } from 'vue';
+import { useSearchResultStore } from '../../stores/SearchResultStore';
 
 const isMobile = useIsMobile()
+const searchResultsStore = useSearchResultStore()
 
 const props = defineProps({
     project: Array,
@@ -30,6 +32,7 @@ async function search() {
             jql: query.value
         }
     })
+    searchResultsStore.search(query.value)
 }
 
 </script>
