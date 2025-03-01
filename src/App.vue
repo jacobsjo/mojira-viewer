@@ -239,6 +239,11 @@ button.search:active {
   color: var(--text-color);
   box-shadow: 2px 2px 3px var(--box-shadow-color);
   cursor: pointer;
+  text-align: center;
+}
+
+.button.sortable-chosen:not(.sortable-ghost) {
+  box-shadow: none;
 }
 
 .button:is(:hover, :focus) {

@@ -4,6 +4,7 @@ import InternalLink from '../components/InternalLink.vue';
 import UsefulSearches from '../components/home/UsefulSearches.vue';
 import SavedIssues from '../components/home/SavedIssues.vue';
 import Go from '../components/home/Go.vue';
+import SavedSearches from '../components/home/SavedSearches.vue';
 
 const goTo = ref("");
 
@@ -25,7 +26,7 @@ const goTo = ref("");
                 </div>
                 <div class="box">
                     <h2>Saved Searches</h2>
-                    <p class="center">&mdash; TODO &mdash;</p>
+                    <SavedSearches />
                 </div>
                 <div class="box">
                     <h2>Useful Searches</h2>

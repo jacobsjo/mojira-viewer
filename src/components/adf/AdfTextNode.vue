@@ -49,7 +49,7 @@ import { computed } from 'vue';
 </script>
 
 <template>
-    <a v-if="marks.href !== undefined" :style="marks.style" :href="marks.href" :title="marks.linkTitle"> {{ props.node?.text }}</a>
+    <a target="_blank" v-if="marks.href !== undefined" :style="marks.style" :href="marks.href" :title="marks.linkTitle"> {{ props.node?.text }}</a>
     <span v-else :style="marks.style"> {{ props.node?.text }}</span>
 </template>
 

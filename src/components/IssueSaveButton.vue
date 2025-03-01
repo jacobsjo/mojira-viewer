@@ -1,23 +1,23 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useSavedIssuesStore } from '../stores/SavedIssuesStore';
+import { useSaveStore } from '../stores/SaveStore';
 
-const savedIssues = useSavedIssuesStore()
+const saveStore = useSaveStore()
 
 const props = defineProps({
     issue_key: String
 })
 
-const isSaved = computed(() => props.issue_key && savedIssues.savedIssues.includes(props.issue_key))
+const isSaved = computed(() => props.issue_key && saveStore.savedIssues.includes(props.issue_key))
 
 function toggle() {
     if (props.issue_key === undefined) return
-    const index = savedIssues.savedIssues.indexOf(props.issue_key)
+    const index = saveStore.savedIssues.indexOf(props.issue_key)
     if (index !== -1){
-        savedIssues.savedIssues.splice(index, 1)
+        saveStore.savedIssues.splice(index, 1)
     } else {
-        savedIssues.savedIssues.push(props.issue_key)
+        saveStore.savedIssues.push(props.issue_key)
     }
 }
 </script>
@@ -31,4 +31,4 @@ function toggle() {
     color: var(--text-color);
     cursor: pointer;
 }
-</style>
+</style>../stores/SaveStore

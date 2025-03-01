@@ -11,6 +11,7 @@ import router from '../../router';
 import InternalLink from '../InternalLink.vue';
 import { useIsMobile } from '../../Mobile';
 import { useDark, useToggle } from '@vueuse/core';
+import SaveSearchButton from './SaveSearchButton.vue';
 const route = useRoute()
 
 const searchResultsStore = useSearchResultStore()
@@ -104,6 +105,7 @@ onMounted(async () => {
         <BasicSearch v-else v-model="basicSearchData" />
         <div class="buttons">
             <button class="search" tabindex="0" @click="() => search()">Search</button>
+            <SaveSearchButton :jql="jql"/>
             <div class="jql-switcher-wrapper">
                 <button class="jql-switcher" tabindex="0" @click="switchMode">{{ useJql ? 'Basic' : 'JQL' }}</button>
                 <div v-if="showNoBasicWarning" ref="noBasicTooltip" class="tooltip">
@@ -164,6 +166,7 @@ select {
 .buttons {
     display: flex;
     gap: 0.7rem;
+    align-items: center
 }
 
 button {

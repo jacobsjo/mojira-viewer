@@ -1,7 +1,7 @@
 
 <script setup lang="ts">
 import { onUpdated } from 'vue';
-import { useSavedIssuesStore } from '../../stores/SavedIssuesStore';
+import { useSaveStore } from '../../stores/SaveStore';
 import IssueCard from '../IssueCard.vue';
 import { useIssueCache } from '../../stores/IssueCache';
 import { onMounted } from 'vue';
@@ -9,23 +9,23 @@ import { useSortable } from '@vueuse/integrations/useSortable'
 import { useTemplateRef } from 'vue';
 
 const issueCache = useIssueCache()
-const savedIssues = useSavedIssuesStore()
+const saveStore = useSaveStore()
 
 onMounted(() => {
-    savedIssues.savedIssues.forEach(key => issueCache.registerInterest(key))
+    saveStore.savedIssues.forEach(key => issueCache.registerInterest(key))
     issueCache.update()
 })
 
 const list = useTemplateRef<HTMLElement>('list')
 
-useSortable(list, savedIssues.savedIssues)
+useSortable(list, saveStore.savedIssues)
 
 </script>
 
 <template>
     <div class="issues" ref="list">
-        <div class="empty" v-if="savedIssues.savedIssues.length === 0">&mdash; Save issues by clicking the <font-awesome-icon :icon="['far', 'star']" /> icon &mdash;</div>
-        <IssueCard v-for="issue of savedIssues.savedIssues" :issue_key="issue" />
+        <div class="empty" v-if="saveStore.savedIssues.length === 0">&mdash; Save issues by clicking the <font-awesome-icon :icon="['far', 'star']" /> icon &mdash;</div>
+        <IssueCard v-for="issue of saveStore.savedIssues" :issue_key="issue" />
     </div>
 </template>
 
@@ -33,4 +33,4 @@ useSortable(list, savedIssues.savedIssues)
 .empty {
     text-align: center;
 }
-</style>
+</style>../../stores/SaveStore
