@@ -1,19 +1,21 @@
-# mojira-frontend
+# mojira-viewer
 
-## Project setup
+This is an unoffficial viewer for issues on the Mojang bug tracker.
+
+**Use online at https://mojira-viewer.jacobsjo.eu**
+
+
+## Contributing
+Contributions are welcome!
+
+To run locally, run
 ```
 npm install
+npm run dev
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
+To test a production build, run
 ```
 npm run build
+npm run preview
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
