@@ -28,7 +28,7 @@ const goTo = ref("");
                     <p class="center">&mdash; TODO &mdash;</p>
                 </div>
                 <div class="box">
-                    <h2>Usefull Searches</h2>
+                    <h2>Useful Searches</h2>
                     <UsefullSearches />
                 </div>
                 <div class="box info">
