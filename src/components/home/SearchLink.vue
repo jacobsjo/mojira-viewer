@@ -35,20 +35,8 @@ async function search() {
 </script>
 
 <template>
-    <button class="search-link" @click="search"><slot></slot></button>    
+    <button class="button" @click="search"><slot></slot></button>    
 </template>
 
-<style scoped>
-    .search-link {
-        background-color: var(--button-color);
-        border: none;
-        padding: 0.6rem;
-        color: var(--text-color);
-        box-shadow: 2px 2px 3px var(--box-shadow-color);
-        cursor: pointer;
-    }
-
-    .search-link:is(:hover,:focus) {
-        background-color: var(--button-hover-color);
-    }
+<style>
 </style>

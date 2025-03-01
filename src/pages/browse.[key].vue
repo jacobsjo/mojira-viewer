@@ -97,7 +97,9 @@ watch(
 )
 
 watch(issue, (issue) => {
-    document.title = `${route.params.key}: ${issue.fields.summary}`
+    if (issue) {
+        document.title = `${route.params.key}: ${issue.fields.summary}`
+    }
 })
 
 onUpdated(() => {

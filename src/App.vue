@@ -19,8 +19,8 @@ const isMobile = useIsMobile()
 const showSearch = ref(false)
 
 watch(isMobile, (isMobile) => {
-  if (!isMobile && route.path === '/browse'){
-    router.push({ path: '/', query: route.query})
+  if (!isMobile && route.path === '/browse') {
+    router.push({ path: '/', query: route.query })
   }
 })
 
@@ -30,10 +30,10 @@ watch(isMobile, (isMobile) => {
   <div class="app">
     <div class="topbar">
       <MobileNav v-if="isMobile" v-model:show-search="showSearch" />
-      <SearchBar :class="{hidden: isMobile && !showSearch}" @search="showSearch = false"/>
+      <SearchBar :class="{ hidden: isMobile && !showSearch }" @search="showSearch = false" />
     </div>
     <div id="searchAndMain">
-      <SearchResults class="searchResults" :class="{hidden: isMobile && route.path !== '/browse', main: isMobile}" />
+      <SearchResults class="searchResults" :class="{ hidden: isMobile && route.path !== '/browse', main: isMobile }" />
       <div class="main" v-if="!isMobile || route.path !== '/browse'">
         <router-view class="view" />
       </div>
@@ -103,7 +103,8 @@ html.dark {
   --text-color: rgb(230, 230, 230);
   --minor-text-color: rgb(161, 161, 161);
   --button-color: rgb(20, 96, 126);
-  --button-hover-color: rgb(25, 124, 163);;
+  --button-hover-color: rgb(25, 124, 163);
+  ;
 
 
   --vs-colors--lightest: white !important;
@@ -156,7 +157,7 @@ body {
   border-bottom: 1px solid var(--main-border-color);
 }
 
-.searchResults:not(.view){
+.searchResults:not(.view) {
   border-right: 1px solid var(--main-border-color);
 }
 
@@ -215,21 +216,35 @@ body {
 
 
 button.search {
-    background-color: rgb(26, 34, 104);
-    color: white;
-    height: 1.7rem;
-    border-radius: 0.3rem;
-    font-weight: bolder;
-    border: 1px solid rgb(212, 212, 212);
+  background-color: rgb(26, 34, 104);
+  color: white;
+  height: 1.7rem;
+  border-radius: 0.3rem;
+  font-weight: bolder;
+  border: 1px solid rgb(212, 212, 212);
 }
 
 button.search:hover {
-    background-color: rgb(48, 58, 145);
+  background-color: rgb(48, 58, 145);
 }
 
 button.search:active {
-    background-color: rgb(97, 106, 184);
+  background-color: rgb(97, 106, 184);
 }
+
+.button {
+  background-color: var(--button-color);
+  border: none;
+  padding: 0.6rem;
+  color: var(--text-color);
+  box-shadow: 2px 2px 3px var(--box-shadow-color);
+  cursor: pointer;
+}
+
+.button:is(:hover, :focus) {
+  background-color: var(--button-hover-color);
+}
+
 
 .v-select .vs__selected-options {
   flex-wrap: nowrap;

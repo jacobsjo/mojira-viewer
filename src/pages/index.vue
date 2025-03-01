@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import InternalLink from '../components/InternalLink.vue';
 import UsefullSearches from '../components/home/UsefullSearches.vue';
 import SavedIssues from '../components/home/SavedIssues.vue';
+import Go from '../components/home/Go.vue';
 
 const goTo = ref("");
 
@@ -15,8 +16,7 @@ const goTo = ref("");
             <div class="boxes">
                 <div class="combiner">
                     <div class="box input">
-                        <input class="search-input" placeholder="Enter issue ID or URL" v-model="goTo">
-                        <InternalLink class="search" :to="`/browse/${goTo}`">Go</InternalLink>
+                        <Go />
                     </div>
                     <div class="box extend">
                         <h2>Saved Issues</h2>
@@ -138,6 +138,7 @@ h2 {
 .links {
     display: flex;
     gap: 1rem;
+    row-gap: 0.4rem;
     justify-content: center;
     white-space: nowrap;
     flex-wrap: wrap;

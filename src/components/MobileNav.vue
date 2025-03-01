@@ -13,11 +13,11 @@ const showSearch = defineModel('showSearch')
 
 <template>
     <div class="mobileNav">
-        <InternalLink to="/browse" class="button"><font-awesome-icon :icon="['fas', 'bars']" /></InternalLink>
-        <button class="button search" :class="{active: showSearch}" tabindex="0" @click="showSearch = !showSearch"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
+        <InternalLink to="/browse" class="mobile-button"><font-awesome-icon :icon="['fas', 'bars']" /></InternalLink>
+        <button class="mobile-button" :class="{active: showSearch}" tabindex="0" @click="showSearch = !showSearch"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
         <div class="gap" />
-        <button class="button darkmode-switcher" tabindex="0" @click="toggleDark()"><font-awesome-icon :icon="['fas', isDark ? 'sun' : 'moon']" /></button>
-        <InternalLink to="/" class="button"><font-awesome-icon :icon="['fas', 'house']" /></InternalLink>
+        <button class="mobile-button darkmode-switcher" tabindex="0" @click="toggleDark()"><font-awesome-icon :icon="['fas', isDark ? 'sun' : 'moon']" /></button>
+        <InternalLink to="/" class="mobile-button"><font-awesome-icon :icon="['fas', 'house']" /></InternalLink>
     </div>
 </template>
 
@@ -33,7 +33,7 @@ const showSearch = defineModel('showSearch')
         flex-grow: 1;
     }
 
-    .button {
+    .mobile-button {
         color: var(--text-color);
         background: none;
         border: none;
@@ -47,11 +47,11 @@ const showSearch = defineModel('showSearch')
         height: 20pt;        
     }
 
-    .button.active, .button.router-link-active {
+    .mobile-button.active, .mobile-button.router-link-active {
         color: var(--accent2-color);
     }
 
-    .button.router-link-active {
+    .mobile-button.router-link-active {
         cursor: default;
     }
 </style>
