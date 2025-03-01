@@ -8,7 +8,6 @@ import InternalLink from './InternalLink.vue';
         <span>NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.</span>
         <span>Copyright © 2025 jacobsjo</span>
         <InternalLink to="/about">About</InternalLink>
-        <a href="https://github.com/jacobsjo/mojira-viewer" target="_blank">Source code</a>
     </div>
 </template>
 
@@ -23,9 +22,10 @@ import InternalLink from './InternalLink.vue';
         background-color: var(--footer-bg-color);
         border-top: 1px solid var(--main-border-color);
         white-space: nowrap;
+        color: var(--minor-text-color)
     }
 
     .footer a{
-        color: var(--text-color)
+        color: var(--minor-text-color)
     }
 </style>

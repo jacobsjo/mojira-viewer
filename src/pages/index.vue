@@ -24,20 +24,24 @@ const goTo = ref("");
                     </div>
                 </div>
                 <div class="box">
-                    <h2>Usefull Searches</h2>
-                    <UsefullSearches />
-                </div>
-                <div class="box">
                     <h2>Saved Searches</h2>
                 </div>
                 <div class="box">
-                    <p>To search for issues, use the search bar above. You might want to restrict the search to a
-                        specific <b>project</b>, such as <b>Java</b> Edition.</p>
-                    <p>To report new issues, go to <a
-                            href="https://report.bugs.mojang.com/servicedesk">https://report.bugs.mojang.com/servicedesk</a>.
+                    <h2>Usefull Searches</h2>
+                    <UsefullSearches />
+                </div>
+                <div class="box info">
+                    <p>To report new Minecraft issues, go to <a
+                            href="https://report.bugs.mojang.com/servicedesk">the official Servicedesk</a>.
                         Note that only <b>bugs</b> are accepted on the issue tracker, so please <b>don't report feature
                             requests or help requests</b>.</p>
-                    <InternalLink to="/about/">About</InternalLink>
+                    <div class="links">
+                        <InternalLink to="/about/">About</InternalLink>
+                        <a target="_blank" href="https://github.com/jacobsjo/mojira-viewer">Source code</a>
+                        <a target="_blank" href="https://github.com/jacobsjo/mojira-viewer/issues">Report a bug with this viewer</a>
+                        <a target="_blank" href="https://jacobsjo.eu">My other tools</a>
+                        <a target="_blank" href="https://ko-fi.com/jacobsjo">Buy me a coffee</a>
+                    </div>
                 </div>
             </div>
             <div>
@@ -107,10 +111,40 @@ h2 {
     box-sizing: border-box;
     padding: 0.7rem;
     background-color: var(--box-bg-color);
+    box-shadow: 2px 2px 8px var(--box-shadow-color);
+    border-radius: 4px;
 }
 
 .input {
     min-height: 0;
     height: fit-content;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem
+}
+
+.info p {
+    margin: 0;
+}
+
+.info p:has(+ .links) {
+    flex-grow: 1;
+}
+
+.links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    white-space: nowrap;
+    flex-wrap: wrap;
+}
+
+.links a {
+    height: 1rem;
+    max-height: 1rem;
+    color: var(--minor-text-color);
 }
 </style>

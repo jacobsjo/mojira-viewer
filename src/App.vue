@@ -50,7 +50,8 @@ html {
   --footer-bg-color: rgb(255, 242, 230);
   --main-bg-color: rgb(255, 255, 255);
   --main-off-bg-color: rgb(221, 221, 221);
-  --box-bg-color: rgb(207, 207, 218);
+  --box-bg-color: rgb(238, 238, 238);
+  --box-shadow-color: rgb(128, 128, 128);
   --error-bg-color: rgb(255, 94, 94);
   --input-bg-color: white;
   --input-text-color: black;
@@ -67,6 +68,7 @@ html {
   --code-bg-color: #eeeeee;
   --code-border-color: gray;
   --text-color: black;
+  --minor-text-color: rgb(71, 71, 71);
 
   --vs-controls-color: var(--accent-color) !important;
 
@@ -80,7 +82,8 @@ html.dark {
   --footer-bg-color: rgb(19, 19, 19);
   --main-bg-color: rgb(34, 34, 34);
   --main-off-bg-color: rgb(17, 17, 17);
-  --box-bg-color: rgb(56, 56, 63);
+  --box-bg-color: rgb(26, 27, 29);
+  --box-shadow-color: rgb(66, 66, 66);
   --error-bg-color: rgb(158, 0, 0);
   --input-bg-color: black;
   --input-text-color: white;
@@ -96,6 +99,8 @@ html.dark {
   --code-bg-color: #363636;
   --code-border-color: rgb(122, 122, 122);
   --text-color: rgb(230, 230, 230);
+  --minor-text-color: rgb(161, 161, 161);
+
 
   --vs-colors--lightest: white !important;
   --vs-border-color: var(--accent-color) !important;
