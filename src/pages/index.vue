@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import InternalLink from '../components/InternalLink.vue';
-import UsefullSearches from '../components/home/UsefullSearches.vue';
+import UsefulSearches from '../components/home/UsefulSearches.vue';
 import SavedIssues from '../components/home/SavedIssues.vue';
 import Go from '../components/home/Go.vue';
 
@@ -29,7 +29,7 @@ const goTo = ref("");
                 </div>
                 <div class="box">
                     <h2>Useful Searches</h2>
-                    <UsefullSearches />
+                    <UsefulSearches />
                 </div>
                 <div class="box info">
                     <p>To report new Minecraft issues, go to <a

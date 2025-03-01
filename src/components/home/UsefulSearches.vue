@@ -1,15 +1,12 @@
 
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
-import { BasicSearchDataField } from '../../BasicSearchData';
-import SelectSearch from '../search/SelectSearch.vue';
 import SearchLink from './SearchLink.vue';
 import { useStorage } from '@vueuse/core';
 import { FieldMetadata } from '../../FieldMetadata';
 
 
 const latestVersionJql = `affectedVersion = latestReleasedVersion() AND resolution IN (Unresolved, Fixed, "Won't Fix") ORDER BY created DESC`
-const recentlyFixedJql = `cf[10054] != Unconfirmed AND resolution IN (Fixed, "Won't Fix", "Works As Intended") ORDER BY resolved DESC`
+const recentlyFixedJql = `cf[10054] IN (Confirmed, "Community Consensus", Plausible) AND resolution IN (Fixed, "Won't Fix", "Works As Intended") ORDER BY resolved DESC`
 
 const project = useStorage('project', [])
 </script>

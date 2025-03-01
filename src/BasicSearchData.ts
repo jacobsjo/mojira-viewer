@@ -44,7 +44,7 @@ export namespace BasicSearchData {
         if (search.match(/ [oO][rR] /))
             return undefined
 
-        const searchParts = search.split(/ [aA][nN][dD] /)
+        const searchParts = search.split(/ [aA][nN][dD] /).map(s => s.trim())
 
         var hasProject = false
         var hasText = false
