@@ -33,22 +33,22 @@ const props = defineProps({
     color: white;
 }
 
-.mojang-confirmed.low {
+.mojang-low {
     background-color: darkgreen;
     color: white;
 }
 
-.mojang-confirmed.normal {
+.mojang-normal {
     background-color: rgb(151, 151, 0);
     color: white;
 }
 
-.mojang-confirmed.important {
+.mojang-important {
     background-color: rgb(158, 103, 0);
     color: white;
 }
 
-.mojang-confirmed.veryImportant {
+.mojang-very-important {
     background-color: rgb(155, 0, 0);
     color: white;
 }
@@ -81,22 +81,22 @@ const props = defineProps({
     color: black;
 }
 
-.dark .mojang-confirmed.low {
+.dark .mojang-low {
     background-color: rgb(89, 189, 89);
     color: black;
 }
 
-.dark .mojang-confirmed.normal {
+.dark .mojang-normal {
     background-color: rgb(228, 228, 93);
     color: black;
 }
 
-.dark .mojang-confirmed.important {
+.dark .mojang-important {
     background-color: rgb(226, 159, 36);
     color: black;
 }
 
-.dark .mojang-confirmed.veryImportant {
+.dark .mojang-very-important {
     background-color: rgb(214, 46, 46);
     color: black;
 }

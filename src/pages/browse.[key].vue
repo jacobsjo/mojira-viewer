@@ -14,6 +14,7 @@ import { useIssueCache } from '../stores/IssueCache'
 import Spinner from '../components/Spinner.vue'
 import { onMounted } from 'vue'
 import IssueSaveButton from '../components/IssueSaveButton.vue'
+import { useFavicon, useTitle } from '@vueuse/core'
 
 // TODO sanitise route.params.key
 
@@ -61,7 +62,13 @@ const {
     reload: reloadComments,
 } = useComments()
 
-const issueFlair = computed(() => IssueFlair.getIssueFlair(issue.value.fields))
+const title = computed(() => issue.value ? `${route.params.key}: ${issue.value.fields.summary} - Mojira Viewer` : `${route.params.key} - Mojira Viewer`)
+useTitle(title)
+
+const issueFlair = computed(() => issue.value ? IssueFlair.getIssueFlair(issue.value.fields) : undefined)
+const favIcon = computed(() => issueFlair.value ? `/favicons/${issueFlair.value.clss}.svg` : '/favicons/main.svg')
+watch(favIcon, i => console.log(i))
+useFavicon(favIcon)
 
 const issueLinks = computed(() => {
     const linkTypes = new Map<Number, { type: any, inward: any[], outward: any[] }>()
@@ -90,17 +97,10 @@ const issueLinks = computed(() => {
 watch(
     () => route.params?.key,
     (issue) => {
-        document.title = `${route.params.key}`
         reloadIssue()
         reloadComments()
     }
 )
-
-watch(issue, (issue) => {
-    if (issue) {
-        document.title = `${route.params.key}: ${issue.fields.summary}`
-    }
-})
 
 onUpdated(() => {
     issueCache.update()

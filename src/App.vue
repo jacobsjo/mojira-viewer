@@ -34,7 +34,7 @@ watch(isMobile, (isMobile) => {
     </div>
     <div id="searchAndMain">
       <SearchResults class="searchResults" :class="{ hidden: isMobile && route.path !== '/browse', main: isMobile }" />
-      <div class="main" v-if="!isMobile || route.path !== '/browse'">
+      <div class="main" :class="{ hidden: isMobile && route.path === '/browse'}" >
         <router-view class="view" />
       </div>
     </div>

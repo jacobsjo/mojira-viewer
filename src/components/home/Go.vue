@@ -14,7 +14,7 @@ function go(){
 
 <template>
     <div class="go">
-        <input class="search-input" placeholder="Enter issue ID or URL" v-model="goTo">
+        <input class="search-input" placeholder="Enter issue ID or URL" @keypress.enter="go" v-model="goTo">
         <button class="search" @click="go">Go</button>
     </div>
 </template>

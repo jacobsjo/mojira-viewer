@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import InternalLink from '../components/InternalLink.vue';
-
+import { useFavicon } from '@vueuse/core';
+useFavicon('favicons/main.svg')
 
 </script>
 

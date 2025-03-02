@@ -5,8 +5,10 @@ import UsefulSearches from '../components/home/UsefulSearches.vue';
 import SavedIssues from '../components/home/SavedIssues.vue';
 import Go from '../components/home/Go.vue';
 import SavedSearches from '../components/home/SavedSearches.vue';
+import { useFavicon } from '@vueuse/core';
 
 const goTo = ref("");
+useFavicon('favicons/main.svg')
 
 </script>
 
