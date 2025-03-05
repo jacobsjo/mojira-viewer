@@ -2,10 +2,12 @@
 import { BasicSearchDataField } from '../../BasicSearchData';
 
 const query = defineModel<BasicSearchDataField.Fuzzy>({required: true})
+
+const emit = defineEmits(['search'])
 </script>
 
 <template>
-    <input class="search-input" :placeholder="$t(`search.${query.field}.placeholder`)" v-model="query.value" />
+    <input class="search-input" inputmode="search":placeholder="$t(`search.${query.field}.placeholder`)" @keypress.enter="emit('search')" v-model="query.value" />
 </template>
 
 <style scoped>

@@ -6,7 +6,7 @@ import { BasicSearchDataField } from "../../BasicSearchData";
 import Remove from "../icons/Remove.vue";
 
 const searchData = defineModel<BasicSearchDataField>({required: true})
-const emits = defineEmits(['delete'])
+const emit = defineEmits(['delete', 'search'])
 </script>
 
 <template>
@@ -14,8 +14,8 @@ const emits = defineEmits(['delete'])
         <div class="label">{{ $t(`field.${searchData.field}.label`)}}:</div>
         <SelectSearch v-if="(searchData instanceof BasicSearchDataField.Select)" v-model="searchData" />
         <CompareSearch v-else-if="(searchData instanceof BasicSearchDataField.Comparison)" v-model="searchData" />
-        <FuzzySearch v-else-if="(searchData instanceof BasicSearchDataField.Fuzzy)" v-model="searchData" />
-        <button class="vs__clear" @click="emits('delete')"><Remove /></button>
+        <FuzzySearch @search="emit('search')" v-else-if="(searchData instanceof BasicSearchDataField.Fuzzy)" v-model="searchData" />
+        <button class="vs__clear" @click="emit('delete')"><Remove /></button>
     </div>
 </template>
 

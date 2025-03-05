@@ -99,12 +99,12 @@ onMounted(async () => {
     <div id="searchBar" :class="{mobile: isMobile}">
         <InternalLink v-if="!isMobile" class="backlink" to="/"><font-awesome-icon :icon="['fas', 'house']" /></InternalLink>
         <div class="jqlSearch" v-if="useJql">
-            <label>JQL: </label>
-            <input id="jql" class="search-input" v-model="jql" />
+            <label for="jql">JQL: </label>
+            <input name="jql" id="jql" class="search-input" @keypress.enter="search" v-model="jql" />
         </div>
-        <BasicSearch v-else v-model="basicSearchData" />
+        <BasicSearch @search="search" v-else v-model="basicSearchData" />
         <div class="buttons">
-            <button class="search" tabindex="0" @click="() => search()">Search</button>
+            <button class="search" tabindex="0" @click="search">Search</button>
             <SaveSearchButton :jql="jql"/>
             <div class="jql-switcher-wrapper">
                 <button class="jql-switcher" tabindex="0" @click="switchMode">{{ useJql ? 'Basic' : 'JQL' }}</button>

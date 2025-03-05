@@ -13,6 +13,8 @@ const data = defineModel<BasicSearchData>({
     required: true
 })
 
+const emit = defineEmits(['search'])
+
 const moreSelection = ref([])
 function addMore(field: { type: string, field: string }) {
     moreSelection.value = []
@@ -28,8 +30,8 @@ function addMore(field: { type: string, field: string }) {
 <template>
     <div class="basicSearch">
         <SelectSearch v-model="data.project" />
-        <FuzzySearch v-model="data.text" />
-        <SearchComponent v-for="(s, i) in data.search" :key="s.key" @delete="data.search.splice(i, 1)" v-model="data.search[i]" />
+        <FuzzySearch v-model="data.text" @search="emit('search')" />
+        <SearchComponent v-for="(s, i) in data.search" :key="s.key" @delete="data.search.splice(i, 1)" @search="emit('search')" v-model="data.search[i]" />
         <v-select class="more" placeholder="More"
             :options="FieldMetadata.seachable.map(f => ({ field: f, label: $t(`field.${f}.label`) }))" :clearable="false"
             v-model="moreSelection" @option:selected="addMore" />
