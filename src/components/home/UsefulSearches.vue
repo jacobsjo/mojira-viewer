@@ -14,7 +14,13 @@ const project = useStorage('project', [])
 
 <template>
     <v-select :placeholder="$t(`search.project.placeholder`,$t(`field.project.label`)+': Any')" multiple :options="FieldMetadata.Select['project'].options"
-            v-model="project" :reduce="(s: any) => s.key" />
+            v-model="project" :reduce="(s: any) => s.key"
+            :filter="(options: (string | {'key': string, 'label': string})[] , search: string) => options.filter((s: any) => (
+                (typeof s === 'string')
+                ? s.toLowerCase().includes(search.toLowerCase())
+                : s.label.toLowerCase().includes(search.toLowerCase()) || s.key.toLowerCase().startsWith(search.toLowerCase())
+            ))"
+            />
     <div class="button-list">
         <SearchLink :project="project" isDefault jql="fixVersion >= earliestUnreleasedVersion() ORDER BY created DESC">Fixed bugs in next release</SearchLink>
         <SearchLink :project="project" isDefault :jql="latestVersionJql">Bugs affecting latest version</SearchLink>
