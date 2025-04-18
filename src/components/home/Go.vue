@@ -5,7 +5,7 @@ import router from '../../router'
 const goTo = ref("")
 
 function go(){
-    const key = goTo.value.match(/(?:MC|MCPE|REALMS|BDS|MCL|WEB)-[0-9]+/)?.[0]
+    const key = goTo.value.toUpperCase().match(/(?:MC|MCPE|REALMS|BDS|MCL|WEB)-[0-9]+/)?.[0]
     if (key){
         router.push({name: '/browse.[key]', params: {key}})
     }

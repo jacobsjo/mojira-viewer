@@ -20,7 +20,7 @@ import { useFavicon, useTitle } from '@vueuse/core'
 
 
 export const useIssueData = defineBasicLoader('/browse.[key]', 
-    (route) => useIssueCache().getIssue(route.params.key as string),
+    (route) => useIssueCache().getIssue(route.params.key),
     {
         lazy: true,
         commit: 'immediate'
@@ -29,7 +29,7 @@ export const useIssueData = defineBasicLoader('/browse.[key]',
 
 
 export const useComments = defineBasicLoader('/browse.[key]', 
-    async (route, context) => getComments(route.params.key as string),
+    async (route, context) => getComments(route.params.key),
     {
         lazy: true,
         commit: 'immediate'
@@ -67,7 +67,6 @@ useTitle(title)
 
 const issueFlair = computed(() => issue.value ? IssueFlair.getIssueFlair(issue.value.fields) : undefined)
 const favIcon = computed(() => issueFlair.value ? `/favicons/${issueFlair.value.clss}.svg` : '/favicons/main.svg')
-watch(favIcon, i => console.log(i))
 useFavicon(favIcon)
 
 const issueLinks = computed(() => {
