@@ -3,6 +3,7 @@ import ImageAttachment from './ImageAttachment.vue'
 import VideoAttachment from './VideoAttachment.vue'
 import OtherAttachment from './OtherAttachment.vue'
 import { ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
     attachment: Object,
@@ -10,15 +11,16 @@ const props = defineProps({
 
 const active = ref(false)
 
+const canBeActive = computed(() => props.attachment?.mimeType.startsWith('image/') || props.attachment?.mimeType.startsWith('video/'))
 function toggleActive() {
-    if(props.attachment?.mimeType.startsWith('image/') || props.attachment?.mimeType.startsWith('video/')){
+    if(canBeActive.value){
         active.value = !active.value
     }
 }
 </script>
 
 <template>
-    <div class="attachment" :class="{active: active}" @click="toggleActive">
+    <div class="attachment" :class="{active: active, canBeActive: canBeActive}" @click="toggleActive">
         <div class="content">
             <ImageAttachment v-if="props.attachment?.mimeType.startsWith('image/')" :id="props.attachment?.id" />
             <VideoAttachment v-else-if="props.attachment?.mimeType.startsWith('video/')" :id="props.attachment?.id" :active="active" />
@@ -41,6 +43,10 @@ function toggleActive() {
     display: flex;
     flex-direction: column;
     gap: 0rem;
+}
+
+.attachment.canBeActive {
+    cursor: pointer;
 }
 
 .attachment.active {
