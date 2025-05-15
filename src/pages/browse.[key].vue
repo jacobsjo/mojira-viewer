@@ -12,6 +12,7 @@ import IssueCard from '../components/IssueCard.vue'
 import { onUpdated } from 'vue'
 import { useIssueCache } from '../stores/IssueCache'
 import Spinner from '../components/Spinner.vue'
+import Attachment from '../components/attachment/Attachment.vue'
 import { onMounted } from 'vue'
 import IssueSaveButton from '../components/IssueSaveButton.vue'
 import { useFavicon, useTitle } from '@vueuse/core'
@@ -166,6 +167,11 @@ onUpdated(() => {
                 </div>
             </div>
 
+            <h2 v-if="issue.fields.attachment.length > 0">Attachments:</h2>
+            <div class="attachments">
+                <Attachment v-for="attachment of issue.fields.attachment" :attachment="attachment" />
+            </div>
+
             <h2>Comments:</h2>
             <div class="comments">
                 <div v-if="isLoadingComments">
@@ -239,6 +245,12 @@ h2 {
 
 h3 {
     font-size: 12pt;
+}
+
+.attachments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .comment-error {
