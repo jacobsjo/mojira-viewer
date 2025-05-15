@@ -15,7 +15,10 @@ const props = defineProps({
 
 <style scoped>
 img {
-    max-height: 100%;
+    width: 10000px;
     max-width: 100%;
+    max-height: 60rem;
+    object-fit: contain;
+
 }
 </style>
