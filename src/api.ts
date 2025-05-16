@@ -1,5 +1,5 @@
 
-export async function search(jql: string, startAt: number = 0): Promise<any> {
+export async function search(jql: string, page: number = 0): Promise<any> {
     jql = jql.trim()
     var requestJql = 'votes < 0 OR '
     if (jql === '' || jql.startsWith("ORDER BY")){
@@ -13,8 +13,8 @@ export async function search(jql: string, startAt: number = 0): Promise<any> {
         body: JSON.stringify({
             "advanced": true,
             "project": 'MC',
-            "startAt": startAt,
-            "maxResults": 20,
+            "page": page,
+            "maxResults": 25,
             "search": requestJql
         })
     })
@@ -28,7 +28,7 @@ export async function getIssues(ids: string[]): Promise<any> {
         body: JSON.stringify({
             "advanced": true,
             "project": 'MC',
-            "startAt": 0,
+            "page": 0,
             "maxResults": 50,
             "search": `votes<0 OR key in (${ids})`
         })

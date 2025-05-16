@@ -8,16 +8,19 @@ export const useSearchResultStore = defineStore('searchResult', () => {
     
     const issueCache = useIssueCache()
     const searchResults = ref<any[]>([])
-    const total = ref(0)
+    const hasAll = ref(false)
     const isLoading = ref(false)
     const error = ref<string>("")
+
+    var nextPage = 0
 
     var lastSearch: string = defaultJql
 
     async function search(jql?: string){
         lastSearch = jql ?? lastSearch
         searchResults.value = []
-        total.value = 0
+        nextPage = 0
+        hasAll.value = true
 
         searchMore()
     }
@@ -25,13 +28,13 @@ export const useSearchResultStore = defineStore('searchResult', () => {
     async function searchMore(){
         isLoading.value = true
         try {
-            const response = await searchApi(lastSearch, searchResults.value.length)
+            const response = await searchApi(lastSearch, nextPage)
             if (response.statusCode && response.statusCode >= 400){
                 error.value = "Invalid search query"
             } else {
                 issueCache.storeIssues(response.issues)
                 searchResults.value = searchResults.value.concat(response.issues)
-                total.value = response.total
+                hasAll.value = !response.pagination.hasNextPage
                 error.value = ""
             }
         } catch (e) {
@@ -42,9 +45,8 @@ export const useSearchResultStore = defineStore('searchResult', () => {
             }
         }
         isLoading.value = false
+        nextPage++
     }
-
-    const hasAll = computed(() => searchResults.value.length >= total.value)
 
     return {searchResults, isLoading, error, search, searchMore, hasAll, defaultJql}
 })

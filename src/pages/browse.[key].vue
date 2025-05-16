@@ -180,7 +180,7 @@ onUpdated(() => {
                 <div v-else-if="errorComments" class="comment-error">{{ errorComments.message }}</div>
                 <div v-else-if="comments.length === 0">No comments</div>
                 <div class="comment" v-else v-for="comment of comments">
-                    <div class="header"><img class="avatar" :src="comment.author.avatarUrls['16x16']" alt="[user]" />
+                    <div class="header"><img class="avatar" :src="comment.author?.avatarUrls['16x16']" alt="[user]" />
                         {{ comment.author.displayName }}: <span class="time"> {{ new
             Date(comment.created).toLocaleString() }}</span></div>
                     <AdfDoc class="content" :node="comment.body" />
