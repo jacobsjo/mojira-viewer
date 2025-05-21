@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import ImageAttachment from './ImageAttachment.vue'
 import VideoAttachment from './VideoAttachment.vue'
+import TextAttachment from './TextAttachment.vue'
 import { ref } from 'vue';
 
 const props = defineProps({
     attachment: Object,
 })
 
+const mimeType = props.attachment?.mimeType ?? ''
+const type = mimeType.startsWith('image/') ? 'image'
+    : mimeType.startsWith('video/') ? 'video'
+    : mimeType.startsWith('text/') || mimeType === 'application/json' ? 'text'
+    : 'download'
+
 const active = ref(false)
 
-function clickAttachment() {
-    if(props.attachment?.mimeType.startsWith('image/') || props.attachment?.mimeType.startsWith('video/')){
+function clickAttachment(evt: MouseEvent) {
+    if(type !== 'download'){
         active.value = !active.value
-    } else {
-        var link = document.createElement("a");
-        link.download = "";
-        link.href = `https://bugs.mojang.com/api/issue-attachment-get?attachmentId=${props.attachment?.id}`;
-        link.click();
+        evt.preventDefault()
     }
 }
 
@@ -27,19 +30,22 @@ function formatFileSize(size: number) {
 </script>
 
 <template>
-    <div class="attachment" :class="{active: active}" @click="clickAttachment">
+    <a :href="`https://bugs.mojang.com/api/issue-attachment-get?attachmentId=${props.attachment?.id}`" class="attachment" :class="{active: active}" @click.stop="clickAttachment" target="_blank">
         <div class="content">
-            <ImageAttachment v-if="props.attachment?.mimeType.startsWith('image/')" :id="props.attachment?.id" />
-            <VideoAttachment v-else-if="props.attachment?.mimeType.startsWith('video/')" :id="props.attachment?.id" :active="active" />
-            <font-awesome-icon v-else class="icon" :icon="['fas', 'download']" />
+            <Suspense>
+                <ImageAttachment v-if="type === 'image'" :id="props.attachment?.id" />
+                <VideoAttachment v-else-if="type === 'video'" :id="props.attachment?.id" :active="active" />
+                <!--TextAttachment v-else-if="type === 'text'" :id="props.attachment?.id" :active="active"/-->
+                <font-awesome-icon v-else class="icon" :icon="['fas', 'download']" />
+            </Suspense>
         </div>
         <p class="title" :title="props.attachment?.filename">
             {{ props.attachment?.filename }}
         </p>
         <p class="size" :title="props.attachment?.filename">
-            {{ formatFileSize(props.attachment?.size) }}
+            {{ formatFileSize(props.attachment?.size) }} {{ props.attachment?.mimeType }}
         </p>
-    </div>
+    </a>
 </template>
 
 <style scoped>
@@ -55,6 +61,8 @@ function formatFileSize(size: number) {
     flex-direction: column;
     gap: 0.2rem;
     cursor: pointer;
+    color: unset;
+    text-decoration: unset;
 }
 
 .attachment:hover {
