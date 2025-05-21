@@ -20,10 +20,16 @@ watch(props, () => {
     }
 })
 
+function clickPlayer(evt: MouseEvent){
+    if (props.active){
+        evt.stopPropagation()
+    }
+}
+
 </script>
 
 <template>
-    <video v-if="loaded" width="10000" ref="video" :controls="props.active" autoplay>
+    <video v-if="loaded" width="10000" ref="video" :controls="props.active" @click="clickPlayer" autoplay>
         <source :src="`https://bugs.mojang.com/api/issue-attachment-get?attachmentId=${props.id}`" />
     </video>
     <font-awesome-icon v-else class="icon" :icon="['fas', 'film']" />

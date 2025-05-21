@@ -30,7 +30,7 @@ function formatFileSize(size: number) {
 </script>
 
 <template>
-    <a :href="`https://bugs.mojang.com/api/issue-attachment-get?attachmentId=${props.attachment?.id}`" class="attachment" :class="{active: active}" @click.stop="clickAttachment" target="_blank">
+    <a :href="active ? undefined : `https://bugs.mojang.com/api/issue-attachment-get?attachmentId=${props.attachment?.id}`" class="attachment" :class="{active: active}" @click.stop="clickAttachment" target="_blank">
         <div class="content">
             <Suspense>
                 <ImageAttachment v-if="type === 'image'" :id="props.attachment?.id" />
