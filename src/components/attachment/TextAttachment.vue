@@ -5,12 +5,16 @@ const props = defineProps({
 })
 
 const content = await fetch(`https://bugs.mojang.com/api/issue-attachment-get?attachmentId=${props.id}`).then(value => value.text())
+
+function clickText(evt: MouseEvent){
+    if (props.active){
+        evt.stopPropagation()
+    }
+}
 </script>
 
 <template>
-    <pre :class="{active: active}"><code>
-        {{ content }}
-    </code></pre>
+    <pre :class="{active: active}" @click="clickText"><code>{{ content }}</code></pre>
 </template>
 
 <style scoped>
@@ -29,7 +33,7 @@ pre {
 pre.active {
     overflow: scroll;
     max-height: 40rem;
-    user-select: all;
+    user-select: text;
     -webkit-user-drag: none;
     user-drag: none;
 }

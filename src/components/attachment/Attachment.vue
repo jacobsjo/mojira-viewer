@@ -11,13 +11,13 @@ const props = defineProps({
 const mimeType = props.attachment?.mimeType ?? ''
 const type = mimeType.startsWith('image/') ? 'image'
     : mimeType.startsWith('video/') ? 'video'
-    : mimeType.startsWith('text/') || mimeType === 'application/json' ? 'text'
-    : 'download'
+        : mimeType.startsWith('text/') || mimeType === 'application/json' ? 'text'
+            : 'download'
 
 const active = ref(false)
 
 function clickAttachment(evt: MouseEvent) {
-    if(type !== 'download'){
+    if (type !== 'download') {
         active.value = !active.value
         evt.preventDefault()
     }
@@ -30,12 +30,13 @@ function formatFileSize(size: number) {
 </script>
 
 <template>
-    <a :href="active ? undefined : `https://bugs.mojang.com/api/issue-attachment-get?attachmentId=${props.attachment?.id}`" class="attachment" :class="{active: active}" @click.stop="clickAttachment" target="_blank">
+    <a :href="active ? undefined : `https://bugs.mojang.com/api/issue-attachment-get?attachmentId=${props.attachment?.id}`"
+        class="attachment" :class="{ active: active }" @click.stop="clickAttachment" download>
         <div class="content">
             <Suspense>
                 <ImageAttachment v-if="type === 'image'" :id="props.attachment?.id" />
                 <VideoAttachment v-else-if="type === 'video'" :id="props.attachment?.id" :active="active" />
-                <!--TextAttachment v-else-if="type === 'text'" :id="props.attachment?.id" :active="active"/-->
+                <TextAttachment v-else-if="type === 'text'" :id="props.attachment?.id" :active="active" />
                 <font-awesome-icon v-else class="icon" :icon="['fas', 'download']" />
             </Suspense>
         </div>
