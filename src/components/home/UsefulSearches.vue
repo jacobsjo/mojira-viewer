@@ -22,7 +22,7 @@ const project = useStorage('project', [])
             ))"
             />
     <div class="button-list">
-        <SearchLink :project="project" isDefault jql="fixVersion >= earliestUnreleasedVersion() ORDER BY created DESC">Fixed bugs in next release</SearchLink>
+        <SearchLink :project="project" isDefault jql="fixVersion = earliestUnreleasedVersion() ORDER BY created DESC">Fixed bugs in next release</SearchLink>
         <SearchLink :project="project" isDefault :jql="latestVersionJql">Bugs affecting latest version</SearchLink>
         <SearchLink :project="project" isDefault jql='cf[10054] IN (Confirmed, "Community Consensus", Plausible) AND resolution = Unresolved ORDER BY created DESC'>Newest confirmed bugs</SearchLink>
         <SearchLink :project="project" isDefault jql="cf[10054] = Unconfirmed AND resolution = Unresolved ORDER BY created ASC">Oldest unconfirmed bugs</SearchLink>
