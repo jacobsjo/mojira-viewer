@@ -1,9 +1,9 @@
 
 export async function search(jql: string, page: number = 0): Promise<any> {
     jql = jql.trim()
-    var requestJql = 'votes < 0 OR '
+    var requestJql = 'watches < 0 OR '
     if (jql === '' || jql.startsWith("ORDER BY")){
-        requestJql += 'votes >= 0 '
+        requestJql += 'watches >= 0 '
     }
     requestJql += jql
 
@@ -30,7 +30,7 @@ export async function getIssues(ids: string[]): Promise<any> {
             "project": 'MC',
             "page": 0,
             "maxResults": 50,
-            "search": `votes<0 OR key in (${ids})`
+            "search": `watches < 0 OR key in (${ids})`
         })
     })
     const searchResult = await response.json()
